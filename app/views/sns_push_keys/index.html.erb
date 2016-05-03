@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Sns Push Keys</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sns_push_keys.each do |sns_push_key| %>
+      <tr>
+        <td><%= link_to 'Show', sns_push_key %></td>
+        <td><%= link_to 'Edit', edit_sns_push_key_path(sns_push_key) %></td>
+        <td><%= link_to 'Destroy', sns_push_key, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sns push key', new_sns_push_key_path %>

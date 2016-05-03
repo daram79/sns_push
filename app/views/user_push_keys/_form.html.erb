@@ -1,0 +1,17 @@
+<%= form_for(@user_push_key) do |f| %>
+  <% if @user_push_key.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user_push_key.errors.count, "error") %> prohibited this user_push_key from being saved:</h2>
+
+      <ul>
+      <% @user_push_key.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

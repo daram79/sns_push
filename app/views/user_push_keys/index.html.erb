@@ -1,0 +1,60 @@
+<div>
+	사이트명 입력: <input id="user_push_key" type="text" />
+	<input style="padding: 10px;" onclick="javascript:add_user_push_key();" type="button" value="입력" />
+</div>
+<table border=1 style="margin-top: 20px;">
+	<tr>
+		<td>사이트명</td>
+	</tr>
+	<% @user_push_keys.each do |key| %>
+	<tr id="<%=key.id%>" %>
+		<td><%=key.sns_push_key.key%></td>
+		<td>
+			<input style="padding: 10px;" onclick="javascript:edit_data(<%=key.id%>);" type="button" value="수정" />
+			<input style="padding: 10px;" onclick="javascript:delete_data(<%=key.id%>);" type="button" value="삭제" />
+		</td>
+	</tr>
+	<%end%>
+</table>
+
+<script>
+
+	function add_user_push_key() {
+		var user_push_key = $("#user_push_key").val();
+		if (confirm("데이터를 입력 하겠습니까?") == true){    //확인
+			$.ajax({
+			   url: "/user_push_keys/add_user_push_key",
+			   data: {user_push_key: user_push_key},
+			   dataType:'json',
+			   type:'POST',
+			   success: function(data){
+			   	location.reload();
+			   }
+			});
+		}
+	}
+
+	function edit_data(event_id) {
+		if (confirm("데이터를 수정 하겠습니까?") == true){    //확인
+			window.location.href = event_id + "/edit_data";
+		}
+	}
+
+	function add_push(event_id){
+		if (confirm("푸쉬를 보내시겠습니까?") == true){    //확인
+		$.ajax({
+			   url: "/events/" + event_id + "/add_push",
+			   dataType:'json',
+			   type:'PUT',
+			   success: function(data){
+			   	var flg = data.flg;
+			   	if(flg){
+			   		$("#" + event_id).remove()
+			   	} else {
+			   		alert("aa");
+			   	}
+			   }
+			});
+		}
+	}
+</script>
