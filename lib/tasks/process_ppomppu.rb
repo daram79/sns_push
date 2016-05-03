@@ -42,7 +42,7 @@ while 1
         SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: link_url, description: description)
         UserPushKey.send_push(title, description, link_url)
         # Ppomppu.create(category_id: category_id, item_id: item_id, title: title, url: link_url, content: content)
-        p "#{title}"
+        # p "#{title}"
       rescue
       end
     end
