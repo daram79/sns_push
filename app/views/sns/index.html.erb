@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Sns</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sns.each do |sn| %>
+      <tr>
+        <td><%= link_to 'Show', sn %></td>
+        <td><%= link_to 'Edit', edit_sn_path(sn) %></td>
+        <td><%= link_to 'Destroy', sn, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sn', new_sn_path %>

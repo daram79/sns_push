@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :sns_contents
+  resources :sns
+  resources :users do
+    member do
+      put "update_registration_id"
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

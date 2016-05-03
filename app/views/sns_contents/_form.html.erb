@@ -1,0 +1,17 @@
+<%= form_for(@sns_content) do |f| %>
+  <% if @sns_content.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sns_content.errors.count, "error") %> prohibited this sns_content from being saved:</h2>
+
+      <ul>
+      <% @sns_content.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
