@@ -29,8 +29,8 @@ production:
   pool: 100
   timeout: 5000
   database: sns_push
-  username: root
-  password: 
+  username: shimtong1004
+  password: ejrdud1004
   reconnect: true
   encoding: utf8mb4
   charset: utf8mb4
