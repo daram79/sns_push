@@ -36,6 +36,11 @@ class SnsController < ApplicationController
       end
     end
   end
+  
+  def add_sns_name
+    Sn.create(name: params[:sns_name])
+    render json: {status: :ok}
+  end
 
   # PATCH/PUT /sns/1
   # PATCH/PUT /sns/1.json

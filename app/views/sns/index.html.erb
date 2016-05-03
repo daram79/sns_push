@@ -1,25 +1,60 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Sns</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @sns.each do |sn| %>
-      <tr>
-        <td><%= link_to 'Show', sn %></td>
-        <td><%= link_to 'Edit', edit_sn_path(sn) %></td>
-        <td><%= link_to 'Destroy', sn, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+<div>
+	사이트명 입력: <input id="sns_name" type="text" />
+	<input style="padding: 10px;" onclick="javascript:add_data();" type="button" value="입력" />
+</div>
+<table border=1 style="margin-top: 20px;">
+	<tr>
+		<td>사이트명</td>
+	</tr>
+	<% @sns.each do |s| %>
+	<tr id="<%=s.id%>" %>
+		<td><%=s.name%></td>
+		<td>
+			<input style="padding: 10px;" onclick="javascript:edit_data(<%=s.id%>);" type="button" value="수정" />
+			<input style="padding: 10px;" onclick="javascript:delete_data(<%=s.id%>);" type="button" value="삭제" />
+		</td>
+	</tr>
+	<%end%>
 </table>
 
-<br>
+<script>
 
-<%= link_to 'New Sn', new_sn_path %>
+	function add_data() {
+		var name = $("#sns_name").val();
+		if (confirm("데이터를 입력 하겠습니까?") == true){    //확인
+			$.ajax({
+			   url: "/sns/add_sns_name",
+			   data: {sns_name: name},
+			   dataType:'json',
+			   type:'POST',
+			   success: function(data){
+			   	location.reload();
+			   }
+			});
+		}
+	}
+
+	function edit_data(event_id) {
+		if (confirm("데이터를 수정 하겠습니까?") == true){    //확인
+			window.location.href = event_id + "/edit_data";
+		}
+	}
+
+	function add_push(event_id){
+		if (confirm("푸쉬를 보내시겠습니까?") == true){    //확인
+		$.ajax({
+			   url: "/events/" + event_id + "/add_push",
+			   dataType:'json',
+			   type:'PUT',
+			   success: function(data){
+			   	var flg = data.flg;
+			   	if(flg){
+			   		$("#" + event_id).remove()
+			   	} else {
+			   		alert("aa");
+			   	}
+			   }
+			});
+		}
+	}
+</script>

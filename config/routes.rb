@@ -1,6 +1,17 @@
 Rails.application.routes.draw do
+  resources :user_push_keys do
+    collection do
+      post "add_user_push_key"
+    end
+  end
+  resources :sns_push_keys
   resources :sns_contents
-  resources :sns
+  resources :sns_contents
+  resources :sns do
+    collection do
+      post "add_sns_name"
+    end
+  end
   resources :users do
     member do
       put "update_registration_id"
