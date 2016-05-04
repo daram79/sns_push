@@ -48,15 +48,18 @@ class UserPushKeysController < ApplicationController
     user_id = params[:user_id]
     
 #   sns_id도 같이 검색
-    # sns_push_key = SnsPushKey.where(key: key)
-    sns_push_key = SnsPushKey.where(sns_id: sns_id, key: key)
-    if sns_push_key.blank?
+    sns_push_key = SnsPushKey.where(sns_id: sns_id, key: key).first
+    
+    if sns_push_key.blank?      
       #sns_id 입력
       # sns_push_key = SnsPushKey.create(key: key)
       sns_push_key = SnsPushKey.create(sns_id: sns_id, key: key)
     end
-    # UserPushKey.create(sns_push_key_id: sns_push_key.id)
-    UserPushKey.create(user_id: user_id, sns_push_key_id: sns_push_key.id)
+
+#     이미 등록되어 있는 키워드인지 검색
+    user_push_key = UserPushKey.where(user_id: user_id, sns_push_key_id: sns_push_key.id)
+    
+    UserPushKey.create(user_id: user_id, sns_push_key_id: sns_push_key.id) if user_push_key.blank?
     
     render json: {status: :ok}
   end
