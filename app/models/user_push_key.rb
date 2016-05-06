@@ -8,11 +8,13 @@ class UserPushKey < ActiveRecord::Base
       key_ids.push push_data.id if title.include?(push_data.key)
       key_ids.push push_data.id if description.include?(push_data.key)
     end
+    categori_str = "[자게]"
+    categori_str = "[뽐게]" if sns_id == 2
     
     user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
     gcm = GCM.new("AIzaSyA5xAh3R864Qp0PNr5zfdwxc4JdYzbG734")
     registration_ids = User.where(id: user_ids).pluck(:registration_id)
-    option = { :data => { 'message' => "#{title} ***#{link_url}" } }   
+    option = { :data => { 'message' => "#{categori_str} #{title} ***#{link_url}" } }   
     
     registration_ids.uniq!
     unless registration_ids.blank?
