@@ -1,5 +1,5 @@
 <div style="padding: 10px">
-	<%= collection_select(:sns, :id, @sns_list, :id, :name, {}, {:style => "width:100%; padding:10px;"}) %>
+	<%= collection_select("sns", "id" , @sns_list, :id, :name, {:selected => @sns_id},{:onchange => "javascript:change_sns_id();", :style => "width:100%; padding:10px;"} )%>
 </div>
 <div style="padding: 10px;">
 	<table style="width: 100%;">
@@ -22,14 +22,13 @@
 	</table>
 </div>
 <script>
-	var user_id = window.sns_push.get_user_id();
 	function add_user_push_key() {
 		var user_push_key = $("#user_push_key").val();
 		if (confirm("데이터를 입력 하겠습니까?") == true){    //확인
 			var sns_id = $("#sns_id").val();
 			$.ajax({
 			   url: "/user_push_keys/add_user_push_key",
-			   data: {sns_id: sns_id, user_id: user_id, user_push_key: user_push_key},
+			   data: {sns_id: sns_id, user_push_key: user_push_key},
 			   dataType:'json',
 			   type:'POST',
 			   success: function(data){
@@ -37,6 +36,11 @@
 			   }
 			});
 		}
+	}
+	
+	function change_sns_id() {
+		var sns_id = $("#sns_id").val();
+		location.href = "/user_push_keys?sns_id=" + sns_id;
 	}
 
 	function add_push(event_id){

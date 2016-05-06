@@ -5,8 +5,16 @@ class UserPushKeysController < ApplicationController
   # GET /user_push_keys
   # GET /user_push_keys.json
   def index
+    if params[:user_id]
+      user_id = session[:user_id] = params[:user_id]
+    elsif session[:user_id]
+      user_id = session[:user_id]
+    end
+    @sns_id = params[:sns_id]
     @sns_list = Sn.all
-    @user_push_keys = UserPushKey.all.order("id desc")
+    # @user_push_keys = UserPushKey.where(user_id: 1).order("id desc")
+    @user_push_keys = UserPushKey.where(user_id: user_id).includes(:sns_push_key).where(sns_push_keys:{sns_id: @sns_id})
+    # @user_push_keys = UserPushKey.all.order("id desc")
   end
 
   # GET /user_push_keys/1
@@ -46,7 +54,7 @@ class UserPushKeysController < ApplicationController
 # 3. 없으면 sns입력후 유저 키워드 입력
     key = params[:user_push_key]
     sns_id = params[:sns_id]
-    user_id = params[:user_id]
+    user_id = session[:user_id]
     
 #   sns_id도 같이 검색
     sns_push_key = SnsPushKey.where(sns_id: sns_id, key: key).first
