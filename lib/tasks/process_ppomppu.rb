@@ -40,7 +40,7 @@ while 1
         
         description = con_doc.css("#realArticleView").text
         SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: link_url, description: description)
-        UserPushKey.send_push(title, description, link_url)
+        UserPushKey.send_push(sns_id, title, description, link_url)
         # Ppomppu.create(category_id: category_id, item_id: item_id, title: title, url: link_url, content: content)
         # p "#{title}"
       rescue
@@ -72,7 +72,7 @@ while 1
           if title != "" || title != ""
             SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: link_url, description: description) 
             # p "#{title}"
-            UserPushKey.send_push(title, description, link_url)
+            UserPushKey.send_push(sns_id, title, description, link_url)
           end
         end
       rescue

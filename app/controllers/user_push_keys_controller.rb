@@ -5,7 +5,8 @@ class UserPushKeysController < ApplicationController
   # GET /user_push_keys
   # GET /user_push_keys.json
   def index
-    @user_push_keys = UserPushKey.all
+    @sns_list = Sn.all
+    @user_push_keys = UserPushKey.all.order("id desc")
   end
 
   # GET /user_push_keys/1

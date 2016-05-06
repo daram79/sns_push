@@ -1,9 +1,9 @@
 class UserPushKey < ActiveRecord::Base
   belongs_to :sns_push_key
   
-  def self.send_push(title, description, link_url)
+  def self.send_push(sns_id, title, description, link_url)
     key_ids = []
-    push_datas = SnsPushKey.all
+    push_datas = SnsPushKey.where(sns_id: sns_id)
     push_datas.each do |push_data|
       key_ids.push push_data.id if title.include?(push_data.key)
       key_ids.push push_data.id if description.include?(push_data.key)
