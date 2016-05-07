@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :user_push_keys do
     collection do
       post "add_user_push_key"
+      delete "delete_user_push_key"
     end
   end
   resources :sns_push_keys

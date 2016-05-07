@@ -72,6 +72,12 @@ class UserPushKeysController < ApplicationController
     
     render json: {status: :ok}
   end
+  
+  def delete_user_push_key
+    user_push_key = UserPushKey.find(params[:key_id])
+    user_push_key.destroy
+    render json: {status: :ok}
+  end
 
   # PATCH/PUT /user_push_keys/1
   # PATCH/PUT /user_push_keys/1.json

@@ -15,7 +15,7 @@
 		<tr id="<%=key.id%>" %>
 			<td style="width: 90%;"><%=key.sns_push_key.key%></td>
 			<td style="text-align: center;">
-				<input style="padding: 10px;" onclick="javascript:delete_data(<%=key.id%>);" type="button" value="삭제" />
+				<input style="padding: 10px;" onclick="javascript:delete_push_key(<%=key.id%>);" type="button" value="삭제" />
 			</td>
 		</tr>
 		<%end%>
@@ -38,26 +38,26 @@
 		}
 	}
 	
+	function delete_push_key(key_id){
+		if (confirm("데이터를 삭제 하겠습니까?") == true){    //확인
+			var sns_id = $("#sns_id").val();
+			$.ajax({
+			   url: "/user_push_keys/delete_user_push_key",
+			   data: {key_id: key_id},
+			   dataType:'json',
+			   type:'DELETE',
+			   success: function(data){
+			   	location.reload();
+			   }
+			});
+		}
+		
+	}
+	
 	function change_sns_id() {
 		var sns_id = $("#sns_id").val();
 		location.href = "/user_push_keys?sns_id=" + sns_id;
 	}
 
-	function add_push(event_id){
-		if (confirm("푸쉬를 보내시겠습니까?") == true){    //확인
-		$.ajax({
-			   url: "/events/" + event_id + "/add_push",
-			   dataType:'json',
-			   type:'PUT',
-			   success: function(data){
-			   	var flg = data.flg;
-			   	if(flg){
-			   		$("#" + event_id).remove()
-			   	} else {
-			   		alert("aa");
-			   	}
-			   }
-			});
-		}
-	}
+	
 </script>
