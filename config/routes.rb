@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  
+  resources :user_push_contents
   resources :user_push_keys do
     collection do
       post "add_user_push_key"

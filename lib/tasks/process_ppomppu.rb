@@ -40,9 +40,7 @@ while 1
         
         description = con_doc.css("#realArticleView").text
         SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: link_url, description: description)
-        UserPushKey.send_push(sns_id, title, description, link_url)
-        # Ppomppu.create(category_id: category_id, item_id: item_id, title: title, url: link_url, content: content)
-        # p "#{title}"
+        # UserPushKey.send_push(sns_id, title, description, link_url)
       rescue
       end
     end
@@ -71,8 +69,7 @@ while 1
           
           if title != "" || title != ""
             SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: link_url, description: description) 
-            # p "#{title}"
-            UserPushKey.send_push(sns_id, title, description, link_url)
+            # UserPushKey.send_push(sns_id, title, description, link_url)
           end
         end
       rescue
@@ -84,15 +81,3 @@ while 1
   end
 end
 
-# data = SnsContent.find(1042)
-# 
-# title = data.title
-# content = data.content
-# key_ids = []
-# push_datas = SnsPushKey.all
-# push_datas.each do |push_data|
-  # key_ids.push push_data.id if title.include?(push_data.key)
-  # key_ids.push push_data.id if content.include?(push_data.key)
-# end
-# 
-# user_ids = SnsPushUser.where(sns_push_key_id: key_ids).pluck(:user_id)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160502015329) do
+ActiveRecord::Schema.define(version: 20160507021242) do
 
   create_table "sns", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(version: 20160502015329) do
   end
 
   add_index "sns_push_keys", ["sns_id", "key"], name: "index_sns_push_keys_on_sns_id_and_key", using: :btree
+
+  create_table "user_push_contents", force: :cascade do |t|
+    t.integer  "user_id",        limit: 4
+    t.integer  "sns_content_id", limit: 4
+    t.boolean  "is_push",                  default: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "user_push_contents", ["is_push"], name: "index_user_push_contents_on_is_push", using: :btree
 
   create_table "user_push_keys", force: :cascade do |t|
     t.integer  "user_id",         limit: 4

@@ -1,0 +1,2 @@
+module UserPushContentsHelper
+end
