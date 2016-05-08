@@ -5,6 +5,14 @@ class UserPushContentsController < ApplicationController
   # GET /user_push_contents.json
   def index
     user_id = session[:user_id] = params[:user_id]
+    push_content_id = params[:push_content_id]
+    @sns_content_id = 0
+
+    if push_content_id != nil
+      sns_content = SnsContent.find_by_content_id(push_content_id)
+      @sns_content_id = sns_content.id
+    end
+    
     @user_push_contents = UserPushContent.where(user_id: user_id).order("id desc")
   end
 

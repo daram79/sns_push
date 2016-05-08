@@ -3,7 +3,7 @@
 	<% unless @user_push_contents.blank? %>
 		<% @user_push_contents.each do |user_push_content| %>
 		<div style="padding: 5px 0; font-size: 16px;">
-			<a style="text-decoration:none; width:100%; display:inline-block;" href="<%=user_push_content.sns_content.url%>">
+			<a style="text-decoration:none; width:100%; display:inline-block; <%="background-color:blue; color:white;" if user_push_content.sns_content_id == @sns_content_id%>" href="<%=user_push_content.sns_content.url%>">
 				<%= user_push_content.sns_content.title%>
 			</a>
 		</div>
