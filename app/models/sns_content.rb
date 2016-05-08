@@ -20,6 +20,7 @@ class SnsContent < ActiveRecord::Base
     end
     key_ids.uniq!
     user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
+    user_ids.uniq!
     ActiveRecord::Base.transaction do
       user_ids.each do |user_id|
         UserPushContent.create(sns_content_id: self.id, user_id: user_id)
