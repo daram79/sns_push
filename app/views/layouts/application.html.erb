@@ -7,10 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <%= csrf_meta_tags %>
 </head>
-<body>
-<div style="width:100%; margin: 0 auto;">
+<body style="margin:0;">
+<div style="width:100%; margin: 0 auto; padding-bottom: 50px;">
 <%= yield %>
+</div>
+<div onclick="javascript:go_ppomppu();" style="width:100%; height: 50px; background-color: #3F51B5; color: white; line-height: 50px; position: fixed; bottom:0px;">
+	<div style="text-align: center; font-size:16px;">뽐뿌 바로가기</div>
 </div>
 
 </body>
 </html>
+
+<script>
+	function go_ppomppu() {
+		window.HTMLOUT.go_ppomppu();
+	}
+</script>
