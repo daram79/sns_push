@@ -1,6 +1,6 @@
 
 
-<!-- <div style="padding: 20px 10px 0 10px;">
+<div style="padding: 20px 10px 0 10px;">
 	<select id="user_recommend_push_count" onchange="javascript:set_user_recommend_push_count();" style="width:100%; padding:10px;">
 		<option value="nil">추천수 PUSH 설정</option>
 		<% for i in 1..20 %>
@@ -10,7 +10,8 @@
 </div>
 <div style="color: gray; padding: 5px 10px 0 10px;">- 추천수 PUSH는 뽐뿌 게시판 글만 적용됩니다.</div>
 
-<hr> -->
+<hr>
+
 <div style="padding: 15px 10px 10px 10px;">
 	<%= collection_select("sns", "id" , @sns_list, :id, :name, {:selected => @sns_id},{:onchange => "javascript:change_sns_id();", :style => "width:100%; padding:10px;"} )%>
 </div>
