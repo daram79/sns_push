@@ -16,6 +16,9 @@ Rails.application.routes.draw do
     end
   end
   resources :users do
+    collection do
+      put "set_user_recommend_push_count"
+    end
     member do
       put "update_registration_id"
     end

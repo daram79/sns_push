@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160507021242) do
+ActiveRecord::Schema.define(version: 20160509123619) do
 
   create_table "sns", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -20,14 +20,15 @@ ActiveRecord::Schema.define(version: 20160507021242) do
   end
 
   create_table "sns_contents", force: :cascade do |t|
-    t.integer  "sns_id",      limit: 4
-    t.integer  "content_id",  limit: 8
-    t.string   "title",       limit: 255
-    t.string   "url",         limit: 255
-    t.text     "description", limit: 65535
+    t.integer  "sns_id",          limit: 4
+    t.integer  "content_id",      limit: 8
+    t.string   "title",           limit: 255
+    t.string   "url",             limit: 255
+    t.text     "description",     limit: 65535
     t.boolean  "is_push"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.integer  "recommend_count", limit: 4,     default: 0
   end
 
   add_index "sns_contents", ["description"], name: "index_sns_contents_on_description", length: {"description"=>10}, using: :btree
@@ -62,10 +63,13 @@ ActiveRecord::Schema.define(version: 20160507021242) do
   add_index "user_push_keys", ["sns_push_key_id"], name: "index_user_push_keys_on_sns_push_key_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.text     "registration_id", limit: 65535
-    t.boolean  "is_push",                       default: true
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.text     "registration_id",      limit: 65535
+    t.boolean  "is_push",                            default: true
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.integer  "recommend_push_count", limit: 4
   end
+
+  add_index "users", ["recommend_push_count"], name: "index_users_on_recommend_push_count", using: :btree
 
 end

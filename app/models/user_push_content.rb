@@ -4,9 +4,12 @@ class UserPushContent < ActiveRecord::Base
   
   # after_commit :send_push, on: :create
   
-  def self.send_push(user_ids, sns_id, title, url)
+  def self.send_push(user_ids, sns_id, title, url, is_recommend=false)
     categori_str = "[자게]"
-    categori_str = "[뽐게]" if sns_id == 2   
+    categori_str = "[뽐게]" if sns_id == 2
+    if is_recommend
+    categori_str = "[추천]" + categori_str  
+    end
     gcm = GCM.new("AIzaSyA5xAh3R864Qp0PNr5zfdwxc4JdYzbG734")
     registration_ids = User.where(id: user_ids).pluck(:registration_id)
     option = { :data => { 'message' => "#{categori_str} #{title} ***#{url}" } }   

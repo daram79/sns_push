@@ -10,6 +10,7 @@ class UserPushKeysController < ApplicationController
     elsif session[:user_id]
       user_id = session[:user_id]
     end
+    @user_recommend_push_count = User.find(user_id).recommend_push_count
     @sns_id = params[:sns_id]
     @sns_list = Sn.all
     # @user_push_keys = UserPushKey.where(user_id: 1).order("id desc")
