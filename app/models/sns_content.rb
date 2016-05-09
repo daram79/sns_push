@@ -50,7 +50,7 @@ class SnsContent < ActiveRecord::Base
         end
       end
       recommend = true
-      # UserPushContent.send_push(user_ids, sns_id, title, url, recommend)
+      UserPushContent.send_push(user_ids, sns_id, title, url, recommend)
     end
   end
   

@@ -23,12 +23,13 @@ while 1
         next unless item.attr("class")
         content_id = item.css("td")[3].css("td")[1].css("a").attr("href").value.split("=")[-1]
         
+        
 #       종료된 이벤트는 패스
-        next if item.css("td")[5].css("img") && item.css("td")[5].css("img").attr("src").value == "/zboard/skin/DQ_Revolution_BBS_New1/end_icon.PNG"
+        next if (!item.css("td")[5].css("img").blank?) && item.css("td")[5].css("img").attr("src").value == "/zboard/skin/DQ_Revolution_BBS_New1/end_icon.PNG"
         
         if item.css("td")[7].text != ""
           recommend = item.css("td")[7].text.split(" - ")[0].to_i
-          if recommend > 5
+          if recommend > 4
             recommend_data = SnsContent.where(sns_id: sns_id, content_id: content_id).first
             if recommend_data && recommend > recommend_data.recommend_count
               recommend_data.update(recommend_count: recommend)
