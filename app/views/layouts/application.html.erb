@@ -11,15 +11,21 @@
 <div style="width:100%; margin: 0 auto; padding-bottom: 50px;">
 <%= yield %>
 </div>
-<div onclick="javascript:go_ppomppu();" style="width:100%; height: 50px; background-color: #3F51B5; color: white; line-height: 50px; position: fixed; bottom:0px;">
-	<div style="text-align: center; font-size:16px;">뽐뿌 바로가기</div>
+<div  style="width:100%; height: 50px; background-color: #3F51B5; color: white; line-height: 50px; position: fixed; bottom:0px;">
+	<table style="width:100%;  height:50px;">
+		<tr>
+			<td onclick="javascript:go_ppomppu('ppomppu');" style="width:50%; text-align:center;">뽐뿌 게시판</td>
+			<td onclick="javascript:go_ppomppu('freeboard');" style="width:50%; text-align:center;">자유 게시판</td>
+		</tr>
+	</table>
 </div>
+
 
 </body>
 </html>
 
 <script>
-	function go_ppomppu() {
-		window.HTMLOUT.go_ppomppu();
+	function go_ppomppu(page_id) {
+		window.HTMLOUT.go_ppomppu(page_id);
 	}
 </script>
