@@ -14,9 +14,9 @@ class SnsContent < ActiveRecord::Base
     key_ids = []
     push_datas = SnsPushKey.where(sns_id: sns_id)
     push_datas.each do |push_data|
-      if title.include?(push_data.key)
+      if title.downcase.include?(push_data.key.downcase)
         key_ids.push push_data.id
-      elsif description.include?(push_data.key)
+      elsif description.downcase.include?(push_data.key.downcase)
         key_ids.push push_data.id 
       end
     end

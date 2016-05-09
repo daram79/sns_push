@@ -4,11 +4,11 @@ require 'open-uri'
 
 while 1
   begin
-    sns_id = 2
+    sns_id = 4
     head_url = "http://www.ppomppu.co.kr/zboard/"
     
     tmp = Time.now.instance_eval { self.to_i * 1000 + (usec/1000) }
-    url = "http://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu&a=#{tmp}"
+    url = "http://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu4&a=#{tmp}"
     
     html_str = open(url, "r:UTF-8").read
     html_str.force_encoding("euc-kr")
@@ -55,12 +55,13 @@ while 1
       end
     end
     
-    content_id = items[5].css("td")[3].css("td")[1].css("a").attr("href").value.split("=")[-1]
+    
+    content_id = items[3].css("td")[3].css("td")[1].css("a").attr("href").value.split("=")[-1]
     for i in 1..10
       begin
         new_id = content_id.to_i + 1
         content_id = new_id.to_s
-        link_url = "http://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&no=#{content_id}"
+        link_url = "http://www.ppomppu.co.kr/zboard/view.php?id=ppomppu4&no=#{content_id}"
           
         search_ret = SnsContent.where(sns_id: sns_id, content_id: content_id)
         if search_ret.blank?

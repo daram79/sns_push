@@ -7,6 +7,7 @@ class UserPushContent < ActiveRecord::Base
   def self.send_push(user_ids, sns_id, title, url, is_recommend=false)
     categori_str = "[자게]"
     categori_str = "[뽐게]" if sns_id == 2
+    categori_str = "[해뽐]" if sns_id == 4
     if is_recommend
     categori_str = "[추천]" + categori_str  
     end
