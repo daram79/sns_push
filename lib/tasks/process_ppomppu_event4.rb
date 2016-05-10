@@ -9,6 +9,7 @@ while 1
     
     tmp = Time.now.instance_eval { self.to_i * 1000 + (usec/1000) }
     url = "http://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu4&a=#{tmp}"
+    default_url = "http://m.ppomppu.co.kr/new/bbs_view.php?id=ppomppu4&no="
     
     html_str = open(url, "r:UTF-8").read
     html_str.force_encoding("euc-kr")
@@ -39,7 +40,7 @@ while 1
         
         # link_url = head_url + item.css("td")[2].css("a").attr("href").value
         link_url = head_url + item.css("td")[3].css("td")[1].css("a").attr("href").value
-        
+        insert_url = default_url + content_id
         
         
         con_html_str = open(link_url, "r:UTF-8").read
@@ -49,7 +50,7 @@ while 1
         con_doc = Nokogiri::HTML(con_html)
         
         description = con_doc.css("#realArticleView").text
-        SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: link_url, description: description)
+        SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: insert_url, description: description)
         # UserPushKey.send_push(sns_id, title, description, link_url)
       rescue
       end
@@ -78,7 +79,8 @@ while 1
           break if description == "" && title == ""
           
           if title != "" || title != ""
-            SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: link_url, description: description) 
+            insert_url = default_url + content_id
+            SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: insert_url, description: description) 
             # UserPushKey.send_push(sns_id, title, description, link_url)
           end
         end
