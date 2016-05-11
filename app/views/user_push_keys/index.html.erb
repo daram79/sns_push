@@ -56,17 +56,23 @@
 	}
 	function add_user_push_key() {
 		var user_push_key = $("#user_push_key").val();
-		if (confirm("데이터를 입력 하겠습니까?") == true){    //확인
-			var sns_id = $("#sns_id").val();
-			$.ajax({
-			   url: "/user_push_keys/add_user_push_key",
-			   data: {sns_id: sns_id, user_push_key: user_push_key},
-			   dataType:'json',
-			   type:'POST',
-			   success: function(data){
-			   	location.reload();
-			   }
-			});
+		if (user_push_key == "") {
+			alert("값을 입력해 주세요.");
+			return false;
+		} else {
+			if (confirm("데이터를 입력 하겠습니까?") == true){    //확인
+				var sns_id = $("#sns_id").val();
+				$.ajax({
+				   url: "/user_push_keys/add_user_push_key",
+				   data: {sns_id: sns_id, user_push_key: user_push_key},
+				   dataType:'json',
+				   type:'POST',
+				   success: function(data){
+				   	location.reload();
+				   }
+				});
+			}
+			
 		}
 	}
 	
