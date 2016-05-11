@@ -13,7 +13,7 @@ class UserPushContentsController < ApplicationController
       @sns_content_id = sns_content.id
     end
     
-    @user_push_contents = UserPushContent.where(user_id: user_id).order("id desc").last(50)
+    @user_push_contents = UserPushContent.where(user_id: user_id).order("id desc").first(50)
   end
 
   # GET /user_push_contents/1
