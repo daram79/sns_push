@@ -10,8 +10,10 @@ class UserPushKeysController < ApplicationController
     elsif session[:user_id]
       user_id = session[:user_id]
     end
-    @user_recommend_push_count = User.find(user_id).recommend_push_count
+    
     @sns_id = params[:sns_id]
+    @user_recommend_push_count = RecommendPushCount.where(user_id: user_id, sns_id: @sns_id).pluck(:count).join.to_i
+    # @user_recommend_push_count = User.find(user_id).recommend_push_count
     @sns_list = Sn.all
     # @user_push_keys = UserPushKey.where(user_id: 1).order("id desc")
     @user_push_keys = UserPushKey.where(user_id: user_id).includes(:sns_push_key).where(sns_push_keys:{sns_id: @sns_id})
@@ -30,6 +32,22 @@ class UserPushKeysController < ApplicationController
 
   # GET /user_push_keys/1/edit
   def edit
+  end
+  
+  def set_user_recommend_push_count
+    user_id = session[:user_id]
+    sns_id = params[:sns_id]
+    count = params[:count]
+    count = nil if count == "nil"
+    recommend_push_count = RecommendPushCount.where(user_id: user_id, sns_id: sns_id).first
+    if recommend_push_count.blank?
+      recommend_push_count = RecommendPushCount.create(user_id: user_id, sns_id: sns_id, count: count)
+    else
+      recommend_push_count.update(count: count)
+    end
+    # user = User.find(session[:user_id])
+    # user.update(recommend_push_count: recommend_push_count)
+    render json: {count: recommend_push_count.count, sns_id: sns_id} 
   end
 
   # POST /user_push_keys

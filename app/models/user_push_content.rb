@@ -8,6 +8,7 @@ class UserPushContent < ActiveRecord::Base
     categori_str = "[자게]"
     categori_str = "[뽐게]" if sns_id == 2
     categori_str = "[해뽐]" if sns_id == 4
+    categori_str = "[뽐포]" if sns_id == 11
     if is_recommend
       categori_str = "[추천]" + categori_str  
     end

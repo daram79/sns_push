@@ -23,13 +23,13 @@ class UsersController < ApplicationController
   def edit
   end
   
-  def set_user_recommend_push_count
-    recommend_push_count = params[:count]
-    recommend_push_count = nil if recommend_push_count == "nil"
-    user = User.find(session[:user_id])
-    user.update(recommend_push_count: recommend_push_count)
-    render json: {count: user.recommend_push_count}
-  end
+  # def set_user_recommend_push_count
+    # recommend_push_count = params[:count]
+    # recommend_push_count = nil if recommend_push_count == "nil"
+    # user = User.find(session[:user_id])
+    # user.update(recommend_push_count: recommend_push_count)
+    # render json: {count: user.recommend_push_count}
+  # end
 
   # POST /users
   # POST /users.json

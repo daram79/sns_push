@@ -1,5 +1,7 @@
-
-
+<div style="padding: 15px 10px 10px 10px;">
+	<%= collection_select("sns", "id" , @sns_list, :id, :name, {:selected => @sns_id},{:onchange => "javascript:change_sns_id();", :style => "width:100%; padding:10px;"} )%>
+</div>
+<hr>
 <div style="padding: 20px 10px 0 10px;">
 	<select id="user_recommend_push_count" onchange="javascript:set_user_recommend_push_count();" style="width:100%; padding:10px;">
 		<option value="nil">추천수 PUSH 설정</option>
@@ -11,10 +13,6 @@
 <div style="color: gray; padding: 5px 10px 0 10px;">- 추천수 PUSH는 뽐뿌 게시판 글만 적용됩니다.</div>
 
 <hr>
-
-<div style="padding: 15px 10px 10px 10px;">
-	<%= collection_select("sns", "id" , @sns_list, :id, :name, {:selected => @sns_id},{:onchange => "javascript:change_sns_id();", :style => "width:100%; padding:10px;"} )%>
-</div>
 <div style="padding: 10px;">
 	<table style="width: 100%;">
 		<tr>
@@ -38,19 +36,31 @@
 <script>
 	function set_user_recommend_push_count() {
 		cnt = $("#user_recommend_push_count").val();
+		var sns_id = $("#sns_id").val();
+		sns_id = 
 		$.ajax({
-			url: "/users/set_user_recommend_push_count",
+			url: "/user_push_keys/set_user_recommend_push_count",
 			dataType:'json',
-			data: {count: cnt},
-			type:'PUT',
+			data: {sns_id: sns_id, count: cnt},
+			type:'POST',
 			success: function(data){
+				var sns_id = data.sns_id;
 				var msg = "";
-				if(data.count == null){
-					alert("지금부터 추천수로 PUSH를 받지 않습니다.")
-				} else {
-					alert("지금부터 " + data.count + "개 이상 추천받은 글을 PUSH받습니다.")
+				if(sns_id == 1){
+					msg = "[자게]";
+				} else if(sns_id == 2) {
+					msg = "[뽐게]";
+				} else if(sns_id == 4) {
+					msg = "[해뽐]";
+				} else if(sns_id == 11) {
+					msg = "[휴포]]";
 				}
-			   }
+				if(data.count == null){
+					alert("지금부터 추천수로 " + msg + "에서 PUSH를 받지 않습니다.")
+				} else {
+					alert("지금부터 " + msg + " 에서 " + data.count + "개 이상 추천받은 글은" + "PUSH를 받습니다.")
+				}
+			  }
 			});
 		
 	}
@@ -78,7 +88,6 @@
 	
 	function delete_push_key(key_id){
 		if (confirm("데이터를 삭제 하겠습니까?") == true){    //확인
-			var sns_id = $("#sns_id").val();
 			$.ajax({
 			   url: "/user_push_keys/delete_user_push_key",
 			   data: {key_id: key_id},

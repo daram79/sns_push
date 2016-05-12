@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     collection do
       post "add_user_push_key"
       delete "delete_user_push_key"
+      post "set_user_recommend_push_count"
     end
   end
   resources :sns_push_keys
@@ -16,9 +17,6 @@ Rails.application.routes.draw do
     end
   end
   resources :users do
-    collection do
-      put "set_user_recommend_push_count"
-    end
     member do
       put "update_registration_id"
     end

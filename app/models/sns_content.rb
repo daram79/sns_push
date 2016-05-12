@@ -41,7 +41,9 @@ class SnsContent < ActiveRecord::Base
     
     del_user_ids = self.user_push_contents.pluck(:user_id)
     
-    user_ids = User.where("recommend_push_count < ?", recommend_count+1).pluck(:id)
+    user_ids = RecommendPushCount.where(sns_id: sns_id).where("count < ?", recommend_count+1).pluck(:user_id)
+    
+    # user_ids = User.where("recommend_push_count < ?", recommend_count+1).pluck(:id)
     unless user_ids.blank?
       user_ids = user_ids -  del_user_ids
       ActiveRecord::Base.transaction do
