@@ -15,6 +15,7 @@ class UserPushKeysController < ApplicationController
     @user_recommend_push_count = RecommendPushCount.where(user_id: user_id, sns_id: @sns_id).pluck(:count).join.to_i
     # @user_recommend_push_count = User.find(user_id).recommend_push_count
     @sns_list = Sn.all
+    @sns_name = Sn.find(@sns_id).name
     # @user_push_keys = UserPushKey.where(user_id: 1).order("id desc")
     @user_push_keys = UserPushKey.where(user_id: user_id).includes(:sns_push_key).where(sns_push_keys:{sns_id: @sns_id})
     # @user_push_keys = UserPushKey.all.order("id desc")
