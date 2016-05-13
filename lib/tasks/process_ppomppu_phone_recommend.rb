@@ -25,7 +25,7 @@ while 1
         content_id = item.css("td")[3].css("a").attr("href").value.split("=")[-1]
         if item.css("td")[5].text != ""
           recommend = item.css("td")[5].text.split(" - ")[0].to_i
-          if recommend > 0
+          if recommend > 4
             recommend_data = SnsContent.where(sns_id: sns_id, content_id: content_id).first
             if recommend_data && recommend > recommend_data.recommend_count
               recommend_data.update(recommend_count: recommend)

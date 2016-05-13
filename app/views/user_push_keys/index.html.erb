@@ -2,7 +2,7 @@
 <div style="padding: 0 10px 10px 10px;">
 	<%= collection_select("sns", "id" , @sns_list, :id, :name, {:selected => @sns_id},{:onchange => "javascript:change_sns_id();", :style => "width:100%; padding:10px;"} )%>
 </div>
-<% if @sns_id != "1" %>
+
 <hr>
 <div style="padding: 10px 10px 0 10px;">
 	<select id="user_recommend_push_count" onchange="javascript:set_user_recommend_push_count();" style="width:100%; padding:10px;">
@@ -15,7 +15,6 @@
 <div style="color: red; padding: 5px 10px 0 10px;">
 	<%=@sns_name%>에서 추천수가 몇 이상인 글을 PUSH할지 선택
 </div>
-<% end %>
 
 <div style="padding: 10px 10px 0 10px;">
 	<table style="width: 100%;">
