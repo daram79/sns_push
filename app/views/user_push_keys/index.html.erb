@@ -5,12 +5,33 @@
 
 <hr>
 <div style="padding: 10px 10px 0 10px;">
-	<select id="user_recommend_push_count" onchange="javascript:set_user_recommend_push_count();" style="width:100%; padding:10px;">
-		<option value="nil">추천수 PUSH 설정</option>
-		<% for i in 1..20 %>
-			<option value="<%=i*5%>" <%= "selected=selected" if i*5 == @user_recommend_push_count %> ><%=i*5%>개 이상 추천받은글</option>
-		<% end %>
-	</select>	
+	<% if @sns_id != "1" %>
+		<select id="user_recommend_push_count" onchange="javascript:set_user_recommend_push_count();" style="width:100%; padding:10px;">
+			<option value="nil">추천수 PUSH 설정</option>
+			<% for i in 1..20 %>
+				<option value="<%=i*5%>" <%= "selected=selected" if i*5 == @user_recommend_push_count %> ><%=i*5%>개 이상 추천받은글</option>
+			<% end %>
+		</select>
+	<% else %>
+		<select id="user_recommend_push_count" style="width:100%; padding:10px;">
+			<option value="nil">추천수 PUSH 설정</option>
+			<% for i in 1..20 %>
+				<option value="<%=i*5%>" <%= "selected=selected" if i*5 == @user_recommend_push_count %> ><%=i*5%>개 이상 추천받은글</option>
+			<% end %>
+		</select>
+		<br />
+		<div style="text-align: center;">and</div>
+		<select id="user_comment_push_count" style="width:100%; padding:10px;">
+			<option value="nil">댓글수 PUSH 설정</option>
+			<% for i in 1..100 %>
+				<option value="<%=i%>" <%= "selected=selected" if i == @user_comment_push_count %> ><%=i%>개 이상 댓글 받은글</option>
+			<% end %>
+		</select>
+		<br />
+		<div style="width:100%; padding-top: 10px;">
+			<input style="padding:10px; width:100%;" onclick="javascript:add_recommend_comment_count();" type="button" value="추가" />
+		</div>
+	<% end %>
 </div>
 <div style="color: red; padding: 5px 10px 0 10px;">
 	<%=@sns_name%>에서 추천수가 몇 이상인 글을 PUSH할지 선택
@@ -71,6 +92,33 @@
 			});
 		
 	}
+	
+	function add_recommend_comment_count() {
+		var sns_id = $("#sns_id").val();
+		var recommend_count = $("#user_recommend_push_count").val();
+		var comment_count = $("#user_comment_push_count").val();
+		if(recommend_count == "nil" && comment_count == "nil"){
+		} else if(recommend_count == "nil"){
+			alert("추천수 PUSH를 선택해 주세요.");
+			return false;
+		} else if(comment_count == "nil"){
+			alert("댓글수 PUSH를 선택해 주세요.");
+			return false;
+		}
+		if (confirm("값을 변경 하시겠습니까?") == true){    //확인
+			$.ajax({
+				url: "/user_push_keys/add_recommend_comment_count",
+				data: {sns_id: sns_id, recommend_count: recommend_count, comment_count: comment_count},
+				dataType:'json',
+				type:'POST',
+				success: function(data){
+					alert("설정을 완료 했습니다.");
+					location.reload();
+				}
+			});
+		}
+	}
+	
 	function add_user_push_key() {
 		var user_push_key = $("#user_push_key").val();
 		if (user_push_key == "") {

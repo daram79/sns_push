@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post "add_user_push_key"
       delete "delete_user_push_key"
       post "set_user_recommend_push_count"
+      post "add_recommend_comment_count"
     end
   end
   resources :sns_push_keys

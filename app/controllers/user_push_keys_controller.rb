@@ -13,6 +13,7 @@ class UserPushKeysController < ApplicationController
     
     @sns_id = params[:sns_id]
     @user_recommend_push_count = RecommendPushCount.where(user_id: user_id, sns_id: @sns_id).pluck(:count).join.to_i
+    @user_comment_push_count = CommentPushCount.where(user_id: user_id, sns_id: @sns_id).pluck(:count).join.to_i if @sns_id.to_s == "1"
     # @user_recommend_push_count = User.find(user_id).recommend_push_count
     @sns_list = Sn.all
     @sns_name = Sn.find(@sns_id).name
@@ -49,6 +50,33 @@ class UserPushKeysController < ApplicationController
     # user = User.find(session[:user_id])
     # user.update(recommend_push_count: recommend_push_count)
     render json: {count: recommend_push_count.count, sns_id: sns_id} 
+  end
+  
+  def add_recommend_comment_count
+    user_id = session[:user_id]
+    sns_id = params[:sns_id]
+    recommend_count = params[:recommend_count]
+    comment_count = params[:comment_count]
+    recommend_count = nil if recommend_count == "nil"
+    comment_count = nil if comment_count == "nil"
+    
+    recommend_push_count = RecommendPushCount.where(user_id: user_id, sns_id: sns_id).first
+    if recommend_push_count.blank?
+      recommend_push_count = RecommendPushCount.create(user_id: user_id, sns_id: sns_id, count: recommend_count)
+    else
+      recommend_push_count.update(count: recommend_count)
+    end
+    
+    comment_push_count = CommentPushCount.where(user_id: user_id, sns_id: sns_id).first
+    if comment_push_count.blank?
+      comment_push_count = CommentPushCount.create(user_id: user_id, sns_id: sns_id, count: comment_count)
+    else
+      comment_push_count.update(count: comment_count)
+    end
+    # user = User.find(session[:user_id])
+    # user.update(recommend_push_count: recommend_push_count)
+    render json: {status: :ok}
+    
   end
 
   # POST /user_push_keys

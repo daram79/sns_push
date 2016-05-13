@@ -29,7 +29,7 @@ class SnsContent < ActiveRecord::Base
       end
     end
     UserPushContent.send_push(user_ids, sns_id, title, url)
-    PpomppuFreeboardWord.add_data(self.id, title, description) if sns_id == 1
+    # PpomppuFreeboardWord.add_data(self.id, title, description) if sns_id == 1
   end
   
   def create_user_recommend_push_data
@@ -39,18 +39,31 @@ class SnsContent < ActiveRecord::Base
     description = self.description
     url = self.url
     recommend_count = self.recommend_count
-    
+    comment_count = self.comment_count
     del_user_ids = self.user_push_contents.pluck(:user_id)
+    user_ids = []
     
-    user_ids = RecommendPushCount.where(sns_id: sns_id).where("count < ?", recommend_count+1).pluck(:user_id)
+    comment_count = comment_count == 0 ? 0 : comment_count + 1 
+    recommend_count = recommend_count == 0 ? 0 : recommend_count + 1
+    
+    if sns_id != 1
+      comment_user_ids = CommentPushCount.where(sns_id: sns_id).where("count < ?", comment_count).pluck(:user_id)
+      recommend_user_ids = RecommendPushCount.where(sns_id: sns_id).where("count < ?", recommend_count).pluck(:user_id)
+      user_ids = comment_user_ids & recommend_user_ids
+    else
+      user_ids = RecommendPushCount.where(sns_id: sns_id).where("count < ?", recommend_count).pluck(:user_id)
+    end
     
     # user_ids = User.where("recommend_push_count < ?", recommend_count+1).pluck(:id)
     unless user_ids.blank?
       user_ids = user_ids -  del_user_ids
+      begin
       ActiveRecord::Base.transaction do
         user_ids.each do |user_id|
           UserPushContent.create(sns_content_id: self.id, user_id: user_id)
         end
+      end
+      rescue
       end
       recommend = true
       UserPushContent.send_push(user_ids, sns_id, title, url, recommend)

@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513025341) do
+ActiveRecord::Schema.define(version: 20160513164936) do
+
+  create_table "comment_push_counts", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "sns_id",     limit: 4
+    t.integer  "count",      limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "comment_push_counts", ["sns_id", "count"], name: "index_comment_push_counts_on_sns_id_and_count", using: :btree
+  add_index "comment_push_counts", ["user_id", "sns_id"], name: "index_comment_push_counts_on_user_id_and_sns_id", using: :btree
 
   create_table "ppomppu_freeboard_words", force: :cascade do |t|
     t.integer  "sns_content_id", limit: 4
@@ -50,9 +61,11 @@ ActiveRecord::Schema.define(version: 20160513025341) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.integer  "recommend_count", limit: 4,     default: 0
+    t.integer  "comment_count",   limit: 4,     default: 0
   end
 
   add_index "sns_contents", ["description"], name: "index_sns_contents_on_description", length: {"description"=>10}, using: :btree
+  add_index "sns_contents", ["recommend_count", "comment_count"], name: "index_sns_contents_on_recommend_count_and_comment_count", using: :btree
   add_index "sns_contents", ["title"], name: "index_sns_contents_on_title", using: :btree
 
   create_table "sns_push_keys", force: :cascade do |t|
