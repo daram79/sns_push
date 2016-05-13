@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512175807) do
+ActiveRecord::Schema.define(version: 20160513025341) do
+
+  create_table "ppomppu_freeboard_words", force: :cascade do |t|
+    t.integer  "sns_content_id", limit: 4
+    t.string   "word",           limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "ppomppu_freeboard_words", ["created_at"], name: "index_ppomppu_freeboard_words_on_created_at", using: :btree
+  add_index "ppomppu_freeboard_words", ["sns_content_id", "word"], name: "index_ppomppu_freeboard_words_on_sns_content_id_and_word", unique: true, using: :btree
 
   create_table "recommend_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4

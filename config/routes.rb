@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :ppomppu_freeboard_words
   resources :user_push_contents
   resources :user_push_keys do
     collection do

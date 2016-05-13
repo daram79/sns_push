@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Ppomppu Freeboard Words</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ppomppu_freeboard_words.each do |ppomppu_freeboard_word| %>
+      <tr>
+        <td><%= link_to 'Show', ppomppu_freeboard_word %></td>
+        <td><%= link_to 'Edit', edit_ppomppu_freeboard_word_path(ppomppu_freeboard_word) %></td>
+        <td><%= link_to 'Destroy', ppomppu_freeboard_word, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ppomppu freeboard word', new_ppomppu_freeboard_word_path %>

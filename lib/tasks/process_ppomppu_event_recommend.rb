@@ -43,3 +43,18 @@ while 1
     p e.backtrace
   end
 end
+
+
+uu = User.all
+uu.each do |u|
+  if u.recommend_push_count
+    RecommendPushCount.create(user_id: u.id, sns_id: 2, count: u.recommend_push_count)
+    RecommendPushCount.create(user_id: u.id, sns_id: 4, count: u.recommend_push_count)
+  end
+end
+
+
+
+
+
+
