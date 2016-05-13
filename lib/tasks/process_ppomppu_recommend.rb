@@ -4,11 +4,11 @@ require 'open-uri'
 
 while 1
   begin
-    sns_id = 2
+    sns_id = 1
     head_url = "http://www.ppomppu.co.kr/zboard/"
     
     tmp = Time.now.instance_eval { self.to_i * 1000 + (usec/1000) }
-    url = "http://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu&a=#{tmp}"
+    url = "http://www.ppomppu.co.kr/zboard/zboard.php?id=freeboard&a=#{tmp}"
     
     html_str = open(url, "r:UTF-8").read
     html_str.force_encoding("euc-kr")
@@ -21,14 +21,11 @@ while 1
       begin
         next if "page_show_noti_1".eql?(item.attr("id"))
         next unless item.attr("class")
-        content_id = item.css("td")[3].css("td")[1].css("a").attr("href").value.split("=")[-1]
+        content_id = item.css("td")[2].css("a").attr("href").value.split("=")[-1]
         
         
-#       종료된 이벤트는 패스
-        next if (!item.css("td")[5].css("img").blank?) && item.css("td")[5].css("img").attr("src").value == "/zboard/skin/DQ_Revolution_BBS_New1/end_icon.PNG"
-        
-        if item.css("td")[7].text != ""
-          recommend = item.css("td")[7].text.split(" - ")[0].to_i
+        if item.css("td")[4].text != ""
+          recommend = item.css("td")[4].text.split(" - ")[0].to_i
           if recommend > 4
             recommend_data = SnsContent.where(sns_id: sns_id, content_id: content_id).first
             if recommend_data && recommend > recommend_data.recommend_count
