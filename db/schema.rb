@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513164936) do
+ActiveRecord::Schema.define(version: 20160514203022) do
 
   create_table "comment_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 20160513164936) do
 
   add_index "ppomppu_freeboard_words", ["created_at"], name: "index_ppomppu_freeboard_words_on_created_at", using: :btree
   add_index "ppomppu_freeboard_words", ["sns_content_id", "word"], name: "index_ppomppu_freeboard_words_on_sns_content_id_and_word", unique: true, using: :btree
+
+  create_table "push_lists", force: :cascade do |t|
+    t.boolean  "is_push",      default: true
+    t.boolean  "is_recommend", default: false
+    t.boolean  "is_error",     default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "push_lists", ["is_push"], name: "index_push_lists_on_is_push", using: :btree
 
   create_table "recommend_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -83,9 +93,11 @@ ActiveRecord::Schema.define(version: 20160513164936) do
     t.boolean  "is_push",                  default: false
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.integer  "push_list_id",   limit: 4
   end
 
   add_index "user_push_contents", ["is_push"], name: "index_user_push_contents_on_is_push", using: :btree
+  add_index "user_push_contents", ["push_list_id"], name: "index_user_push_contents_on_push_list_id", using: :btree
   add_index "user_push_contents", ["user_id", "sns_content_id"], name: "index_user_push_contents_on_user_id_and_sns_content_id", unique: true, using: :btree
 
   create_table "user_push_keys", force: :cascade do |t|

@@ -1,5 +1,6 @@
 class UserPushContent < ActiveRecord::Base
   belongs_to :sns_content
+  belongs_to :push_list
   belongs_to :user
   
   # after_commit :send_push, on: :create

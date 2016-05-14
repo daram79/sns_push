@@ -23,19 +23,19 @@ class SnsContent < ActiveRecord::Base
     key_ids.uniq!
     user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
     user_ids.uniq!
-    push_user_ids = []
     user_ids = [1] #for test
     
-    # ActiveRecord::Base.transaction do
+    push_list = PushList.create
+    
+    ActiveRecord::Base.transaction do
       user_ids.each do |user_id|
         begin
-          user_push_content = UserPushContent.create(sns_content_id: self.id, user_id: user_id)
-          push_user_ids.push user_push_content.user_id
+          user_push_content = UserPushContent.create(sns_content_id: self.id, user_id: user_id, push_list_id: push_list.id)
         rescue
         end
       end
-    # end
-    UserPushContent.send_push(push_user_ids, sns_id, title, url) unless push_user_ids.blank?
+    end
+    # UserPushContent.send_push(push_user_ids, sns_id, title, url) unless push_user_ids.blank?
     # PpomppuFreeboardWord.add_data(self.id, title, description) if sns_id == 1
   end
   
@@ -65,20 +65,20 @@ class SnsContent < ActiveRecord::Base
     unless user_ids.blank?
       del_user_ids = self.user_push_contents.pluck(:user_id)
       user_ids = user_ids - del_user_ids
-      push_user_ids = []
+      
+      push_list = PushList.create
 
       user_ids = [1] #for test
-      # ActiveRecord::Base.transaction do
+      ActiveRecord::Base.transaction do
         user_ids.each do |user_id|
           begin
-            user_push_content = UserPushContent.create(sns_content_id: self.id, user_id: user_id)
-            push_user_ids.push user_push_content.user_id
+            user_push_content = UserPushContent.create(sns_content_id: self.id, user_id: user_id, push_list_id: push_list.id)
           rescue
           end
         end
-      # end
-      recommend = true
-      UserPushContent.send_push(push_user_ids, sns_id, title, url, recommend) unless push_user_ids.blank?
+      end
+      # recommend = true
+      # UserPushContent.send_push(push_user_ids, sns_id, title, url, recommend) unless push_user_ids.blank?
     end
   end
 end
