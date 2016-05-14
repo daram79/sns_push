@@ -23,7 +23,6 @@ class SnsContent < ActiveRecord::Base
     key_ids.uniq!
     user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
     user_ids.uniq!
-    user_ids = [1] #for test
     
     push_list = PushList.create
     
@@ -68,7 +67,6 @@ class SnsContent < ActiveRecord::Base
       
       push_list = PushList.create(is_recommend: true)
 
-      user_ids = [1] #for test
       ActiveRecord::Base.transaction do
         user_ids.each do |user_id|
           begin

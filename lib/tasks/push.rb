@@ -12,6 +12,7 @@ while 1
       user_ids.push user_push_content.user_id
     end
     unless user_ids.blank?
+      user_ids = [1] #for test
       sns_id = user_push_contents[0].sns_content.sns_id
       title = user_id = user_push_contents[0].sns_content.title
       url = user_push_contents[0].sns_content.url
