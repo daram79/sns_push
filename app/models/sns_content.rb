@@ -24,6 +24,7 @@ class SnsContent < ActiveRecord::Base
     user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
     user_ids.uniq!
     push_user_ids = []
+    user_ids = [1] #for test
     
     ActiveRecord::Base.transaction do
       user_ids.each do |user_id|
@@ -66,6 +67,7 @@ class SnsContent < ActiveRecord::Base
       user_ids = user_ids - del_user_ids
       push_user_ids = []
 
+      user_ids = [1] #for test
       ActiveRecord::Base.transaction do
         user_ids.each do |user_id|
           begin
