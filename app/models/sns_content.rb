@@ -26,7 +26,7 @@ class SnsContent < ActiveRecord::Base
     push_user_ids = []
     user_ids = [1] #for test
     
-    ActiveRecord::Base.transaction do
+    # ActiveRecord::Base.transaction do
       user_ids.each do |user_id|
         begin
           user_push_content = UserPushContent.create(sns_content_id: self.id, user_id: user_id)
@@ -34,7 +34,7 @@ class SnsContent < ActiveRecord::Base
         rescue
         end
       end
-    end
+    # end
     UserPushContent.send_push(push_user_ids, sns_id, title, url) unless push_user_ids.blank?
     # PpomppuFreeboardWord.add_data(self.id, title, description) if sns_id == 1
   end
@@ -68,7 +68,7 @@ class SnsContent < ActiveRecord::Base
       push_user_ids = []
 
       user_ids = [1] #for test
-      ActiveRecord::Base.transaction do
+      # ActiveRecord::Base.transaction do
         user_ids.each do |user_id|
           begin
             user_push_content = UserPushContent.create(sns_content_id: self.id, user_id: user_id)
@@ -76,7 +76,7 @@ class SnsContent < ActiveRecord::Base
           rescue
           end
         end
-      end
+      # end
       recommend = true
       UserPushContent.send_push(push_user_ids, sns_id, title, url, recommend) unless push_user_ids.blank?
     end
