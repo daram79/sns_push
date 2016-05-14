@@ -40,7 +40,7 @@ class SnsContent < ActiveRecord::Base
     url = self.url
     recommend_count = self.recommend_count
     comment_count = self.comment_count
-    del_user_ids = self.user_push_contents.pluck(:user_id)
+    
     user_ids = []
     
     comment_count = comment_count == 0 ? 0 : comment_count + 1 
@@ -56,20 +56,18 @@ class SnsContent < ActiveRecord::Base
     
     # user_ids = User.where("recommend_push_count < ?", recommend_count+1).pluck(:id)
     unless user_ids.blank?
+      del_user_ids = self.user_push_contents.pluck(:user_id)
       user_ids = user_ids -  del_user_ids
-      send_user_ids = []
       begin
       ActiveRecord::Base.transaction do
         user_ids.each do |user_id|
-          ret = UserPushContent.create(sns_content_id: self.id, user_id: user_id)
-          send_user_ids.push ret.user_id
+          UserPushContent.create(sns_content_id: self.id, user_id: user_id)
         end
       end
       rescue
       end
-      debugger
       recommend = true
-      UserPushContent.send_push(send_user_ids, sns_id, title, url, recommend) unless send_user_ids.blank?
+      UserPushContent.send_push(user_ids, sns_id, title, url, recommend)
     end
   end
   
