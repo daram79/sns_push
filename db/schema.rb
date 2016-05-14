@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20160513164936) do
   end
 
   add_index "user_push_contents", ["is_push"], name: "index_user_push_contents_on_is_push", using: :btree
+  add_index "user_push_contents", ["user_id", "sns_content_id"], name: "index_user_push_contents_on_user_id_and_sns_content_id", unique: true, using: :btree
 
   create_table "user_push_keys", force: :cascade do |t|
     t.integer  "user_id",         limit: 4

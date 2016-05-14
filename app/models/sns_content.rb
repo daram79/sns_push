@@ -23,12 +23,19 @@ class SnsContent < ActiveRecord::Base
     key_ids.uniq!
     user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
     user_ids.uniq!
+    push_user_ids = []
+    user_ids = [1] #for test
+    
     ActiveRecord::Base.transaction do
       user_ids.each do |user_id|
-        UserPushContent.create(sns_content_id: self.id, user_id: user_id)
+        begin
+          user_push_content = UserPushContent.create(sns_content_id: self.id, user_id: user_id)
+          push_user_ids.push user_push_content.user_id
+        rescue
+        end
       end
     end
-    UserPushContent.send_push(user_ids, sns_id, title, url)
+    UserPushContent.send_push(push_user_ids, sns_id, title, url) unless push_user_ids.blank?
     # PpomppuFreeboardWord.add_data(self.id, title, description) if sns_id == 1
   end
   
@@ -59,7 +66,9 @@ class SnsContent < ActiveRecord::Base
       del_user_ids = self.user_push_contents.pluck(:user_id)
       user_ids = user_ids - del_user_ids
       push_user_ids = []
-      # ActiveRecord::Base.transaction do
+
+      user_ids = [1] #for test
+      ActiveRecord::Base.transaction do
         user_ids.each do |user_id|
           begin
             user_push_content = UserPushContent.create(sns_content_id: self.id, user_id: user_id)
@@ -67,7 +76,7 @@ class SnsContent < ActiveRecord::Base
           rescue
           end
         end
-      # end
+      end
       recommend = true
       UserPushContent.send_push(push_user_ids, sns_id, title, url, recommend) unless push_user_ids.blank?
     end
