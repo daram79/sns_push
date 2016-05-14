@@ -33,25 +33,13 @@ while 1
             end 
           end
         end
-        
-        
-        
-        # if item.css("td")[4].text != ""
-          # recommend = item.css("td")[4].text.split(" - ")[0].to_i
-          # if recommend > 0
-            # recommend_data = SnsContent.where(sns_id: sns_id, content_id: content_id).first
-            # if recommend_data && recommend > recommend_data.recommend_count
-              # comment_count = item.css("td")[2].css(".list_comment2").text.to_i
-              # recommend_data.update(recommend_count: recommend, comment_count: comment_count)
-            # end 
-          # end
-        # end
       rescue
       end
     end    
   rescue => e
     p e.backtrace
   end
+  sleep 1
 end
 
 

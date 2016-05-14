@@ -42,6 +42,7 @@ while 1
   rescue => e
     p e.backtrace
   end
+  sleep 1
 end
 
 
