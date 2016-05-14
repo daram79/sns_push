@@ -7,5 +7,6 @@ class CreateUserPushContents < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_index :user_push_contents, :is_push
+    add_index :user_push_contents, [:user_id, :sns_content_id], :unique => true
   end
 end
