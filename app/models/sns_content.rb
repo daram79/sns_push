@@ -46,7 +46,7 @@ class SnsContent < ActiveRecord::Base
     comment_count = comment_count == 0 ? 0 : comment_count + 1 
     recommend_count = recommend_count == 0 ? 0 : recommend_count + 1
     
-    if sns_id != 1
+    if sns_id.to_i == 1
       comment_user_ids = CommentPushCount.where(sns_id: sns_id).where("count < ?", comment_count).pluck(:user_id)
       recommend_user_ids = RecommendPushCount.where(sns_id: sns_id).where("count < ?", recommend_count).pluck(:user_id)
       user_ids = comment_user_ids & recommend_user_ids
