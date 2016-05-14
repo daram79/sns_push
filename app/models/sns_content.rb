@@ -66,7 +66,7 @@ class SnsContent < ActiveRecord::Base
       del_user_ids = self.user_push_contents.pluck(:user_id)
       user_ids = user_ids - del_user_ids
       
-      push_list = PushList.create
+      push_list = PushList.create(is_recommend: true)
 
       user_ids = [1] #for test
       ActiveRecord::Base.transaction do
