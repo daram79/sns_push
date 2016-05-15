@@ -13,13 +13,15 @@ while 1
     end
     unless user_ids.blank?
 #     
-      test_user_id = []
-      user_ids.each do |user_id|
-        if user_id.to_i == 1
-          test_user_id.push user_id
+      if push_list.is_recommend
+        test_user_id = []
+        user_ids.each do |user_id|
+          if user_id.to_i == 1
+            test_user_id.push user_id
+          end
         end
+        user_ids = test_user_id
       end
-      user_ids = test_user_id
 # 
 
       sns_id = user_push_contents[0].sns_content.sns_id
