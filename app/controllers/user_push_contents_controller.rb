@@ -12,7 +12,7 @@ class UserPushContentsController < ApplicationController
       sns_content = SnsContent.find_by_content_id(push_content_id)
       @sns_content_id = sns_content.id
     end
-    @notices = SnsContent.where(sns_id: 0).order("id desc")
+    @notices = Notice.where(is_show: true)
     @user_push_contents = UserPushContent.where(user_id: user_id).order("id desc").first(50)
   end
 

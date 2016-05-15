@@ -2,7 +2,7 @@
 	<hr color="#f0f0f0" style="border-bottom: 0; margin:0;" />
 	<% @notices.each do |notice| %>
 		<div style="padding: 5px 0; font-size: 16px;">
-			<a style="text-decoration:none; width:100%; display:inline-block; background-color:#FBB131; color:white;" href="<%=notice.url%>">
+			<a style="text-decoration:none; width:100%; display:inline-block; background-color:#FBB131; color:white;" href="/notices/<%=notice.id%>">
 				공지 : <%= notice.title%>
 			</a>
 		</div>
@@ -10,9 +10,23 @@
 	<% end %>
 	<% unless @user_push_contents.blank? %>
 		<% @user_push_contents.each do |user_push_content| %>
-		<div style="padding: 5px 0; font-size: 16px;">
+		<div style="padding: 10px 0; font-size: 16px;">
 			<a style="text-decoration:none; width:100%; display:inline-block; <%="background-color:blue; color:white;" if user_push_content.sns_content_id == @sns_content_id%>" href="<%=user_push_content.sns_content.url%>">
-				<%= user_push_content.sns_content.title%>
+				<% title = "" %>
+				<% if user_push_content.push_list.is_recommend %>
+					<% title += "[추천]" %>
+				<% end %>
+				
+				<% if user_push_content.sns_content.sns_id == 1 %>
+					<% title += "[자게]" %> 
+				<% elsif user_push_content.sns_content.sns_id == 2 %>
+					<% title += "[뽐게]" %>
+				<% elsif user_push_content.sns_content.sns_id == 4 %>
+					<% title += "[해뽐]" %>
+				<% elsif user_push_content.sns_content.sns_id == 11 %>
+					<% title += "[휴포]" %>
+				<% end %>
+				<%= title + " " + user_push_content.sns_content.title%>
 			</a>
 		</div>
 		<hr color="#f0f0f0" style="border-bottom: 0; margin:0;" />

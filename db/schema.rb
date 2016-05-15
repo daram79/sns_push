@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160514203022) do
+ActiveRecord::Schema.define(version: 20160515041530) do
 
   create_table "comment_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 20160514203022) do
 
   add_index "comment_push_counts", ["sns_id", "count"], name: "index_comment_push_counts_on_sns_id_and_count", using: :btree
   add_index "comment_push_counts", ["user_id", "sns_id"], name: "index_comment_push_counts_on_user_id_and_sns_id", using: :btree
+
+  create_table "notices", force: :cascade do |t|
+    t.string   "title",       limit: 255
+    t.text     "description", limit: 65535
+    t.boolean  "is_show",                   default: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+  end
+
+  add_index "notices", ["is_show"], name: "index_notices_on_is_show", using: :btree
 
   create_table "ppomppu_freeboard_words", force: :cascade do |t|
     t.integer  "sns_content_id", limit: 4
