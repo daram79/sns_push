@@ -12,7 +12,16 @@ while 1
       user_ids.push user_push_content.user_id
     end
     unless user_ids.blank?
-      user_ids = [1] #for test
+#     
+      test_user_id = []
+      user_ids.each do |user_id|
+        if user_id.to_i == 1
+          test_user_id.push user_id
+        end
+      end
+      user_ids = test_user_id
+# 
+
       sns_id = user_push_contents[0].sns_content.sns_id
       title = user_id = user_push_contents[0].sns_content.title
       url = user_push_contents[0].sns_content.url
