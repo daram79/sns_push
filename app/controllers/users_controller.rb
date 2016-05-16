@@ -23,6 +23,45 @@ class UsersController < ApplicationController
   def edit
   end
   
+  def setting
+    @user_id = user_id = params[:id]
+    
+    on = [true, "ON"]
+    off = [false, "OFF"]
+    
+    @on_off_hash = Hash.new
+    @on_off_hash[:on] = on
+    @on_off_hash[:off] = off
+    
+    @user = User.find(user_id)
+  end
+  
+  def set_push_off_time
+    user_id = params[:id]
+    user = User.find(user_id)
+    start_time_hour = params[:start_time_hour]
+    start_time_min = params[:start_time_min]
+    
+    start_time = start_time_hour + ":" + start_time_min + ":00" 
+    
+    
+    end_time_hour = params[:end_time_hour]
+    end_time_min = params[:end_time_min]
+    end_time = end_time_hour + ":" + end_time_min + ":00"
+    
+    user.update(push_off_start_time: start_time, push_off_end_time: end_time)
+    render json: {status: :ok}
+    
+  end
+  
+  def set_is_push_off_time
+    user_id = params[:id]
+    is_push_off_time = params[:is_push_off_time]
+    user = User.find(user_id)
+    user.update(is_push_off_time: is_push_off_time)
+    render json: {status: :ok}
+  end
+  
   # def set_user_recommend_push_count
     # recommend_push_count = params[:count]
     # recommend_push_count = nil if recommend_push_count == "nil"

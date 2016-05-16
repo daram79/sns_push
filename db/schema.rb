@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515041530) do
+ActiveRecord::Schema.define(version: 20160516025116) do
 
   create_table "comment_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -122,11 +122,15 @@ ActiveRecord::Schema.define(version: 20160515041530) do
   create_table "users", force: :cascade do |t|
     t.text     "registration_id",      limit: 65535
     t.boolean  "is_push",                            default: true
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.integer  "recommend_push_count", limit: 4
+    t.boolean  "is_push_off_time",                   default: false
+    t.time     "push_off_start_time"
+    t.time     "push_off_end_time"
   end
 
+  add_index "users", ["is_push_off_time", "push_off_start_time", "push_off_end_time"], name: "push_off_time_index", using: :btree
   add_index "users", ["recommend_push_count"], name: "index_users_on_recommend_push_count", using: :btree
 
 end

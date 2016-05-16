@@ -1,0 +1,80 @@
+<div style="padding: 10px;">
+<table style="width:100%; border-collapse:collapse;">
+	<tr class="bottom_line">
+		<td style="padding:20px 0; font-size: 16px;">알람ON/OFF:</td>
+		<td style="text-align: right;">
+			<select style="padding: 6px;">
+				<option value="<%=@on_off_hash[:on][0]%>" <%= "selected=selected" if @on_off_hash[:on][0] == @user.is_push %>><%=@on_off_hash[:on][1]%></option>
+				<option value="<%=@on_off_hash[:off][0]%>" <%= "selected=selected" if @on_off_hash[:off][0] == @user.is_push %>><%=@on_off_hash[:off][1]%></option>
+			</select>
+		</td>
+	</tr>
+	<tr class="bottom_line">
+		<td style="padding:20px 0; font-size: 16px;">에티켓 기능 사용:</td>
+		<td style="text-align: right;">
+			<select id="is_push_off_time" onchange="javascript:change_is_push_off_time();" style="padding: 6px;">
+				<option value="<%=@on_off_hash[:on][0]%>" <%= "selected=selected" if @on_off_hash[:on][0] == @user.is_push_off_time %>><%=@on_off_hash[:on][1]%></option>
+				<option value="<%=@on_off_hash[:off][0]%>" <%= "selected=selected" if @on_off_hash[:off][0] == @user.is_push_off_time %>><%=@on_off_hash[:off][1]%></option>
+			</select>
+		</td>
+	</tr>
+	<tr id="is_push_off_time_detail1" class="bottom_line" style='<%= "display: none" unless @user.is_push_off_time %>'>
+		<td style="padding:20px 0; font-size: 16px;">에티켓 시작시간:</td>
+		<td style="text-align: right;">
+			<span><%= time_select :alram_off, :start_time, {:default => @user.push_off_start_time}, {:style=>"padding: 6px;", :onchange=>"javascript:set_push_off_time();"} %></span>
+		</td>
+	</tr>
+	<tr id="is_push_off_time_detail2" class="bottom_line" style='<%= "display: none" unless @user.is_push_off_time %>'>
+		<td style="padding:20px 0; font-size: 16px;">에티켓 종료시간:</td>
+		<td style="text-align: right;">
+			<span><%= time_select :alram_off, :end_time, {:default => @user.push_off_end_time}, {:style => "padding: 6px;", :onchange=>"javascript:set_push_off_time();"} %></span>
+			<!-- <span><input type="button" onclick="javascript:set_push_off_time();" value="설정" /></span> -->
+		</td>
+	</tr>
+</table>
+</div>
+
+<script>
+	function set_push_off_time() {
+				var start_time_hour = $("#alram_off_start_time_4i").val();
+				var start_time_min = $("#alram_off_start_time_5i").val();
+				
+				var end_time_hour = $("#alram_off_end_time_4i").val();
+				var end_time_min = $("#alram_off_end_time_5i").val();
+				
+				$.ajax({
+				   url: "/users/" + "<%=@user_id%>" + "/set_push_off_time",
+				   data: {start_time_hour: start_time_hour, start_time_min: start_time_min, end_time_hour: end_time_hour, end_time_min: end_time_min},
+				   dataType:'json',
+				   type:'PUT',
+				   success: function(data){
+				   	// location.reload();
+				   }
+				});
+	}
+	
+	function change_is_push_off_time() {
+		var is_push_off_time = $("#is_push_off_time").val();
+		$.ajax({
+			url: "/users/<%=@user_id%>/set_is_push_off_time",
+			data: {is_push_off_time: is_push_off_time},
+			dataType:'json',
+			type:'PUT',
+			success: function(data){
+				if(is_push_off_time == "true") {
+					$("#is_push_off_time_detail1").show();
+					$("#is_push_off_time_detail2").show();
+				} else {
+					$("#is_push_off_time_detail1").hide();
+					$("#is_push_off_time_detail2").hide();
+				}
+			}
+		});
+	}
+</script>
+
+<style>
+	.bottom_line {
+		border-bottom: 1px solid gray;
+	}
+</style>

@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   resources :users do
     member do
       put "update_registration_id"
+      get "setting"
+      put "set_push_off_time"
+      put "set_is_push_off_time"
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

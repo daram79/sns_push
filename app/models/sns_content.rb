@@ -24,6 +24,12 @@ class SnsContent < ActiveRecord::Base
     user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
     user_ids.uniq!
     
+    t = Time.now
+    srarch_time = "#{t.hour}:#{t.min}:#{t.sec}"
+    del_user_ids = User.where("is_push_off_time = ? and push_off_start_time < ? and push_off_end_time > ?", true, srarch_time, srarch_time).pluck(:id)
+    
+    user_ids = user_ids - del_user_ids
+             
     push_list = PushList.create
     
     ActiveRecord::Base.transaction do
@@ -63,7 +69,12 @@ class SnsContent < ActiveRecord::Base
     # user_ids = User.where("recommend_push_count < ?", recommend_count+1).pluck(:id)
     unless user_ids.blank?
       del_user_ids = self.user_push_contents.pluck(:user_id)
-      user_ids = user_ids - del_user_ids
+      
+      t = Time.now
+      srarch_time = "#{t.hour}:#{t.min}:#{t.sec}"
+      del_user_ids2 = User.where("is_push_off_time = ? and push_off_start_time < ? and push_off_end_time > ?", true, srarch_time, srarch_time).pluck(:id)
+      
+      user_ids = user_ids - del_user_ids - del_user_ids2
       
       push_list = PushList.create(is_recommend: true)
 
