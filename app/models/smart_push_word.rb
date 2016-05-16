@@ -15,13 +15,13 @@ class SmartPushWord < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       title_ary.each do |t|
         begin
-          PpomppuFreeboardWord.create(sns_content_id: sns_content_id, word: t) if t.strip! != ""
+          SmartPushWord.create(sns_content_id: sns_content_id, word: t) if t.strip! != ""
         rescue
         end
       end
       description_ary.each do |d|
         begin
-          PpomppuFreeboardWord.create(sns_content_id: sns_content_id, word: d) if d.strip! != ""
+          SmartPushWord.create(sns_content_id: sns_content_id, word: d) if d.strip! != ""
         rescue
         end
       end
