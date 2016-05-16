@@ -16,7 +16,7 @@ while 1
       if push_list.is_recommend
         test_user_id = []
         user_ids.each do |user_id|
-          if user_id.to_i == 1
+          if user_id.to_i == 1 || user_id.to_i == 2 || user_id.to_i == 4
             test_user_id.push user_id
           end
         end
