@@ -24,6 +24,19 @@ while 1
       end
 # 
 
+# push on/off
+#     에티켓
+      t = Time.now
+      search_time = "#{t.hour}:#{t.min}:#{t.sec}"
+      del_user_ids = User.where("is_push_off_time = ? and push_off_start_time < ? and push_off_end_time > ?", true, search_time, search_time).pluck(:id)
+      
+#     알람off
+      del_user_ids2 = User.where(is_push: false).pluck(:id)
+      
+      user_ids = user_ids - del_user_ids - del_user_ids2
+
+
+# push on/off
       sns_id = user_push_contents[0].sns_content.sns_id
       title = user_id = user_push_contents[0].sns_content.title
       url = user_push_contents[0].sns_content.url

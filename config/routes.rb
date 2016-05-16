@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       put "update_registration_id"
       get "setting"
       put "set_push_off_time"
+      put "set_is_push"
       put "set_is_push_off_time"
     end
   end

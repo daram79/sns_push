@@ -54,6 +54,14 @@ class UsersController < ApplicationController
     
   end
   
+  def set_is_push
+    user_id = params[:id]
+    is_push = params[:is_push]
+    user = User.find(user_id)
+    user.update(is_push: is_push)
+    render json: {status: :ok}
+  end
+  
   def set_is_push_off_time
     user_id = params[:id]
     is_push_off_time = params[:is_push_off_time]
