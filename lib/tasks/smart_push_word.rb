@@ -7,7 +7,7 @@ while 1
     next unless sns_content
     smart_word = SmartPushWord.where(sns_content_id: sns_content.id).first
     unless smart_word
-      SmartPushWord.create(sns_content_id: sns_content.id, word: sns_content.title)
+      SmartPushWord.add_data(sns_content.id, sns_content.title, sns_content.description)
     end
   rescue => e
     p e.message
