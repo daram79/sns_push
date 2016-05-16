@@ -46,6 +46,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
+  config.logger = Logger.new("/home/shimtong1004/work/one_day/log/production.log", 'daily')
   config.log_level = :info
 
   # Prepend all log lines with the following tags.
