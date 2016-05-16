@@ -36,7 +36,7 @@ class SnsContent < ActiveRecord::Base
     end
     # UserPushContent.send_push(push_user_ids, sns_id, title, url) unless push_user_ids.blank?
     # PpomppuFreeboardWord.add_data(self.id, title, description) if sns_id == 1
-    SmartPushWord.add_data(self.id, title, description) if sns_id == 1
+    # SmartPushWord.add_data(self.id, title, description) if sns_id == 1
   end
   
   def create_user_recommend_push_data
