@@ -48,5 +48,6 @@ end
 gem 'unicorn'
 gem 'gcm'
 gem 'nokogiri'
+gem 'rinku'
 
 

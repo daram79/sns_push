@@ -1,4 +1,6 @@
 <div style="padding: 10px;">
 	<div style="font-size: 16px; font-weight: bold;padding: 10px 0; line-height: 16px;"><%= @notice.title %></div>
-	<div style="font-size: 14px; line-height: 150%;"><%= raw hbr(@notice.description.to_s.html_safe) %></div>
+	<div style="font-size: 14px; line-height: 150%;">
+		<%= raw Rinku.auto_link(hbr(@notice.description.to_s.html_safe)) %>
+	</div>
 </div>
