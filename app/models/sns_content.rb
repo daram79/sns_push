@@ -60,10 +60,12 @@ class SnsContent < ActiveRecord::Base
       
 #     댓글 푸시 start
 begin
-      user = User.where(is_push_comment: true, nick_name: self.writer)
-      unless user.blank?
-        user.each do |u|
-          comment_push_list = CommentPushList.create(user_id: u.id)
+      if self.writer != nil
+        user = User.where(is_push_comment: true, nick_name: self.writer)
+        unless user.blank?
+          user.each do |u|
+            comment_push_list = CommentPushList.create(user_id: u.id)
+          end
         end
       end
 rescue
