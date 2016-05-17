@@ -18,7 +18,7 @@ class UserPushKeysController < ApplicationController
     @sns_list = Sn.all
     @sns_name = Sn.find(@sns_id).name
     # @user_push_keys = UserPushKey.where(user_id: 1).order("id desc")
-    @user_push_keys = UserPushKey.where(user_id: user_id).includes(:sns_push_key).where(sns_push_keys:{sns_id: @sns_id})
+    @user_push_keys = UserPushKey.where(user_id: user_id).includes(:sns_push_key).where(sns_push_keys:{sns_id: @sns_id}).order("user_push_keys.id desc")
     # @user_push_keys = UserPushKey.all.order("id desc")
   end
 
