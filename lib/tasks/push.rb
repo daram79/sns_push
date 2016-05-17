@@ -13,15 +13,15 @@ while 1
     end
     unless user_ids.blank?
 #     
-      if push_list.is_recommend
-        test_user_id = []
-        user_ids.each do |user_id|
-          if user_id.to_i == 1 || user_id.to_i == 2 || user_id.to_i == 4
-            test_user_id.push user_id
-          end
-        end
-        user_ids = test_user_id
-      end
+      # if push_list.is_recommend
+        # test_user_id = []
+        # user_ids.each do |user_id|
+          # if user_id.to_i == 1 || user_id.to_i == 2 || user_id.to_i == 4
+            # test_user_id.push user_id
+          # end
+        # end
+        # user_ids = test_user_id
+      # end
 # 
 
 # push on/off
