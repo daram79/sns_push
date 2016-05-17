@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516171556) do
+ActiveRecord::Schema.define(version: 20160517131744) do
 
   create_table "comment_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 20160516171556) do
 
   add_index "comment_push_counts", ["sns_id", "count"], name: "index_comment_push_counts_on_sns_id_and_count", using: :btree
   add_index "comment_push_counts", ["user_id", "sns_id"], name: "index_comment_push_counts_on_user_id_and_sns_id", using: :btree
+
+  create_table "comment_push_lists", force: :cascade do |t|
+    t.boolean  "is_push",              default: true
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "comment_push_lists", ["is_push"], name: "index_comment_push_lists_on_is_push", using: :btree
+  add_index "comment_push_lists", ["user_id"], name: "index_comment_push_lists_on_user_id", using: :btree
 
   create_table "notices", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -92,11 +102,13 @@ ActiveRecord::Schema.define(version: 20160516171556) do
     t.datetime "updated_at",                                null: false
     t.integer  "recommend_count", limit: 4,     default: 0
     t.integer  "comment_count",   limit: 4,     default: 0
+    t.string   "writer",          limit: 255
   end
 
   add_index "sns_contents", ["description"], name: "index_sns_contents_on_description", length: {"description"=>10}, using: :btree
   add_index "sns_contents", ["recommend_count", "comment_count"], name: "index_sns_contents_on_recommend_count_and_comment_count", using: :btree
   add_index "sns_contents", ["title"], name: "index_sns_contents_on_title", using: :btree
+  add_index "sns_contents", ["writer"], name: "index_sns_contents_on_writer", using: :btree
 
   create_table "sns_push_keys", force: :cascade do |t|
     t.integer  "sns_id",     limit: 4
@@ -138,9 +150,13 @@ ActiveRecord::Schema.define(version: 20160516171556) do
     t.boolean  "is_push_off_time",                   default: false
     t.time     "push_off_start_time"
     t.time     "push_off_end_time"
+    t.string   "nick_name",            limit: 255
+    t.boolean  "is_push_comment"
   end
 
   add_index "users", ["is_push_off_time", "push_off_start_time", "push_off_end_time"], name: "push_off_time_index", using: :btree
+  add_index "users", ["nick_name", "is_push_comment"], name: "index_users_on_nick_name_and_is_push_comment", using: :btree
+  add_index "users", ["nick_name"], name: "index_users_on_nick_name", using: :btree
   add_index "users", ["recommend_push_count"], name: "index_users_on_recommend_push_count", using: :btree
 
 end

@@ -23,16 +23,29 @@ while 1
         next unless item.attr("class")
         content_id = item.css("td")[2].css("a").attr("href").value.split("=")[-1]
         
+        comment_count = 0
+        recommend_count = 0
         comment_count = item.css("td")[2].css(".list_comment2").text.to_i
-        if comment_count > 0 && item.css("td")[4].text != ""
+        # if comment_count > 0 && item.css("td")[4].text != ""
           recommend_count = item.css("td")[4].text.split(" - ")[0].to_i
-          if recommend_count > 0
+          # if recommend_count > 0
             recommend_data = SnsContent.where(sns_id: sns_id, content_id: content_id).first
             if recommend_data && (comment_count > recommend_data.comment_count || recommend_count > recommend_data.recommend_count)
               recommend_data.update(recommend_count: recommend_count, comment_count: comment_count)
             end 
-          end
-        end
+          # end
+        # end
+        
+        # comment_count = item.css("td")[2].css(".list_comment2").text.to_i
+        # if comment_count > 0 && item.css("td")[4].text != ""
+          # recommend_count = item.css("td")[4].text.split(" - ")[0].to_i
+          # if recommend_count > 0
+            # recommend_data = SnsContent.where(sns_id: sns_id, content_id: content_id).first
+            # if recommend_data && (comment_count > recommend_data.comment_count || recommend_count > recommend_data.recommend_count)
+              # recommend_data.update(recommend_count: recommend_count, comment_count: comment_count)
+            # end 
+          # end
+        # end
       rescue
       end
     end    

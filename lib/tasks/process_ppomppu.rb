@@ -28,6 +28,11 @@ while 1
         
         title = item.css("td")[2].css("a").text
         
+        writer = item.css("td")[1].css("span.list_name").text
+        if writer == ""
+          writer = item.css("td")[1].css("nobr.list_vspace a img").attr("alt").text
+        end
+        
         # break unless search_ret.blank?
         break unless search_ret.blank?
         
@@ -41,7 +46,7 @@ while 1
         con_doc = Nokogiri::HTML(con_html)
         
         description = con_doc.css("#realArticleView").text
-        SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: insert_url, description: description)
+        SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: insert_url, description: description, writer: writer)
         # UserPushKey.send_push(sns_id, title, description, link_url)
       rescue
       end
@@ -66,11 +71,15 @@ while 1
           
           description = con_doc.css("#realArticleView").text
           title = con_doc.css(".view_title2").text
+          writer = con_doc.css(".view_name").text
+          if writer == ""
+            writer = con_doc.css(".han")[1].css("span a img").attr("alt").value
+          end
           
           break if description == "" && title == ""
           insert_url = default_url + content_id
           if title != "" || title != ""
-            SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: insert_url, description: description) 
+            SnsContent.create(sns_id: sns_id, content_id: content_id, title: title, url: insert_url, description: description, writer: writer) 
             # UserPushKey.send_push(sns_id, title, description, link_url)
           end
         end

@@ -57,6 +57,18 @@ class SnsContent < ActiveRecord::Base
       comment_user_ids = CommentPushCount.where(sns_id: sns_id).where("count < ?", comment_count).pluck(:user_id)
       recommend_user_ids = RecommendPushCount.where(sns_id: sns_id).where("count < ?", recommend_count).pluck(:user_id)
       user_ids = comment_user_ids & recommend_user_ids
+      
+#     댓글 푸시 start
+begin
+      user = User.where(is_push_comment: true, nick_name: self.writer)
+      unless user.blank?
+        user.each do |u|
+          comment_push_list = CommentPushList.create(user_id: u.id)
+        end
+      end
+rescue
+end
+#     댓글 푸시 end
     else
       user_ids = RecommendPushCount.where(sns_id: sns_id).where("count < ?", recommend_count).pluck(:user_id)
     end
@@ -65,7 +77,6 @@ class SnsContent < ActiveRecord::Base
     unless user_ids.blank?
       del_user_ids = self.user_push_contents.pluck(:user_id)
       user_ids = user_ids - del_user_ids
-      
       push_list = PushList.create(is_recommend: true)
 
       ActiveRecord::Base.transaction do

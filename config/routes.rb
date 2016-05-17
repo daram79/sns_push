@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       put "set_push_off_time"
       put "set_is_push"
       put "set_is_push_off_time"
+      put "set_is_push_comment"
+      put "set_nick_name"
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

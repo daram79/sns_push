@@ -31,6 +31,23 @@
 			<!-- <span><input type="button" onclick="javascript:set_push_off_time();" value="설정" /></span> -->
 		</td>
 	</tr>
+	<!-- <tr class="bottom_line">
+		<td style="padding:20px 0; font-size: 16px;">댓글알림 ON/OFF:</td>
+		<td style="text-align: right;">
+			<select id="is_push_comment" onchange="javascript:change_is_push_comment();" style="padding: 6px;">
+				<option value="<%=@on_off_hash[:on][0]%>" <%= "selected=selected" if @on_off_hash[:on][0] == @user.is_push_comment %>><%=@on_off_hash[:on][1]%></option>
+				<option value="<%=@on_off_hash[:off][0]%>" <%= "selected=selected" if @on_off_hash[:off][0] == @user.is_push_comment %>><%=@on_off_hash[:off][1]%></option>
+			</select>
+		</td>
+	</tr>
+	<tr class="bottom_line" style='<%= "display: none" if !@user.is_push || !@user.is_push_comment %>'>
+		<td style="padding:10px 0; font-size: 16px;" colspan="2">
+			<span>
+				<input id="nick_name" type="text" style="width:80%; padding:6px;" placeholder="유저 닉네임을 입력해 주세요." value="<%=@user.nick_name%>">
+				<input type="button" value="입력" style="padding: 6px;" onclick="javascript:set_writer();">	
+			</span>
+		</td>
+	</tr> -->
 </table>
 </div>
 
@@ -81,6 +98,36 @@
 					$("#is_push_off_time_detail1").hide();
 					$("#is_push_off_time_detail2").hide();
 				}
+			}
+		});
+	}
+	
+	function change_is_push_comment() {
+		var is_push_comment = $("#is_push_comment").val();
+		$.ajax({
+			url: "/users/<%=@user_id%>/set_is_push_comment",
+			data: {is_push_comment: is_push_comment},
+			dataType:'json',
+			type:'PUT',
+			success: function(data){
+				location.reload();
+			}
+		});
+	}
+	
+	function set_writer() {
+		var nick_name = $("#nick_name").val().trim();
+		if(nick_name == "") {
+			alert("닉네임을 입력해 주세요.");
+			return false;
+		}
+		$.ajax({
+			url: "/users/<%=@user_id%>/set_nick_name",
+			data: {nick_name: nick_name},
+			dataType:'json',
+			type:'PUT',
+			success: function(data){
+				location.reload();
 			}
 		});
 	}

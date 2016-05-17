@@ -70,6 +70,22 @@ class UsersController < ApplicationController
     render json: {status: :ok}
   end
   
+  def set_is_push_comment
+    user_id = params[:id]
+    is_push_comment = params[:is_push_comment]
+    user = User.find(user_id)
+    user.update(is_push_comment: is_push_comment)
+    render json: {status: :ok}
+  end
+  
+  def set_nick_name
+    user_id = params[:id]
+    nick_name = params[:nick_name]
+    user = User.find(user_id)
+    user.update(nick_name: nick_name)
+    render json: {status: :ok}
+  end
+  
   # def set_user_recommend_push_count
     # recommend_push_count = params[:count]
     # recommend_push_count = nil if recommend_push_count == "nil"
