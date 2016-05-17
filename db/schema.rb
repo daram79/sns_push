@@ -25,10 +25,11 @@ ActiveRecord::Schema.define(version: 20160517131744) do
   add_index "comment_push_counts", ["user_id", "sns_id"], name: "index_comment_push_counts_on_user_id_and_sns_id", using: :btree
 
   create_table "comment_push_lists", force: :cascade do |t|
-    t.boolean  "is_push",              default: true
-    t.integer  "user_id",    limit: 4
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.boolean  "is_push",                  default: true
+    t.integer  "user_id",        limit: 4
+    t.integer  "sns_content_id", limit: 4
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "comment_push_lists", ["is_push"], name: "index_comment_push_lists_on_is_push", using: :btree
