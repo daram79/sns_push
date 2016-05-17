@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 20160517131744) do
     t.time     "push_off_start_time"
     t.time     "push_off_end_time"
     t.string   "nick_name",            limit: 255
-    t.boolean  "is_push_comment"
+    t.boolean  "is_push_comment",                    default: false
   end
 
   add_index "users", ["is_push_off_time", "push_off_start_time", "push_off_end_time"], name: "push_off_time_index", using: :btree

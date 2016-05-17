@@ -55,13 +55,19 @@ class SnsContent < ActiveRecord::Base
     
     if sns_id.to_i == 1
       
-#     댓글 푸시 start
+      #     댓글 푸시 start
+begin
+  debugger
       if self.writer != nil
         users = User.where(is_push_comment: true, nick_name: self.writer)
-        users.each do |user|
-          CommentPushList.create(user_id: user.id)
+        unless users.blank?
+          users.each do |user|
+            CommentPushList.create(user_id: user.id)
+          end
         end
       end
+rescue
+end
 #     댓글 푸시 end
       
       
