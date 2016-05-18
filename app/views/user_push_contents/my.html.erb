@@ -1,0 +1,17 @@
+<div style="padding: 10px;">
+	<hr color="#f0f0f0" style="border-bottom: 0; margin:0;" />
+	
+	<% unless @contents.blank? %>
+		<% @contents.each do |content| %>
+		<div style="padding: 10px 0; font-size: 16px;">
+			<a style="text-decoration:none; width:100%; display:inline-block; <%="background-color:blue; color:white;" if content.id == @sns_content_id%>" href="<%=content.url%>">
+				<%= content.title %>
+			</a>
+		</div>
+		<hr color="#f0f0f0" style="border-bottom: 0; margin:0;" />
+		<% end %>
+	<% else %>
+		<div style="text-align: center; padding: 50px 0;font-size: 18px; color: gray;">아직 데이터가 없습니다.</div>
+		<hr color="#f0f0f0" style="border-bottom: 0; margin:0;" />
+	<% end %>
+</div>

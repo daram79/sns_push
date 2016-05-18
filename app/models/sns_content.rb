@@ -1,5 +1,6 @@
 class SnsContent < ActiveRecord::Base
   has_many :user_push_contents
+  has_many :comment_push_lists
   
   after_create :create_user_push_data
   

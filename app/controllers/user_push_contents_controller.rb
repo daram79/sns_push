@@ -15,6 +15,21 @@ class UserPushContentsController < ApplicationController
     @notices = Notice.where(is_show: true)
     @user_push_contents = UserPushContent.where(user_id: user_id).order("id desc").first(100)
   end
+  
+  def my
+    debugger
+    user_id = session[:user_id] = params[:user_id]
+    push_content_id = params[:push_content_id]
+    user_nick_name = User.find(user_id).nick_name
+    if user_nick_name
+      @sns_content_id = 0
+      if push_content_id != nil
+        sns_content = SnsContent.find_by_content_id(push_content_id)
+        @sns_content_id = sns_content.id
+      end
+      @contents = SnsContent.where(writer: user_nick_name).order("id desc").first(20)
+    end
+  end
 
   # GET /user_push_contents/1
   # GET /user_push_contents/1.json

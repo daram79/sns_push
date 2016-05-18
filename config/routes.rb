@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   
   resources :notices
   resources :ppomppu_freeboard_words
-  resources :user_push_contents
+  resources :user_push_contents do
+    collection do
+      get "my"
+    end
+  end
   resources :user_push_keys do
     collection do
       post "add_user_push_key"
