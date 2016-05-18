@@ -31,7 +31,8 @@
 			<!-- <span><input type="button" onclick="javascript:set_push_off_time();" value="설정" /></span> -->
 		</td>
 	</tr>
-	<!-- <tr class="bottom_line">
+	<% if @user_id.to_i == 1 %>
+	<tr class="bottom_line">
 		<td style="padding:20px 0; font-size: 16px;">댓글알림 ON/OFF:</td>
 		<td style="text-align: right;">
 			<select id="is_push_comment" onchange="javascript:change_is_push_comment();" style="padding: 6px;">
@@ -47,7 +48,8 @@
 				<input type="button" value="입력" style="padding: 6px;" onclick="javascript:set_writer();">	
 			</span>
 		</td>
-	</tr> -->
+	</tr>
+	<% end %>
 </table>
 </div>
 
