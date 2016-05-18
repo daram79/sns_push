@@ -17,7 +17,6 @@ class UserPushContentsController < ApplicationController
   end
   
   def my
-    debugger
     user_id = session[:user_id] = params[:user_id]
     push_content_id = params[:push_content_id]
     user_nick_name = User.find(user_id).nick_name

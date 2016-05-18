@@ -3,7 +3,6 @@ require "#{File.dirname(__FILE__)}/../../config/environment.rb"
 
 while 1
   begin
-    debugger
     comment_push_list = CommentPushList.where(is_push: true).first
     next unless comment_push_list
     user_id = comment_push_list.user_id
