@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517131744) do
+ActiveRecord::Schema.define(version: 20160520065513) do
 
   create_table "comment_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -79,6 +79,15 @@ ActiveRecord::Schema.define(version: 20160517131744) do
 
   add_index "recommend_push_counts", ["sns_id", "count"], name: "index_recommend_push_counts_on_sns_id_and_count", using: :btree
   add_index "recommend_push_counts", ["user_id", "sns_id"], name: "index_recommend_push_counts_on_user_id_and_sns_id", using: :btree
+
+  create_table "smart_push_lists", force: :cascade do |t|
+    t.integer  "sns_content_id", limit: 4
+    t.boolean  "is_show",                  default: true
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+  end
+
+  add_index "smart_push_lists", ["is_show"], name: "index_smart_push_lists_on_is_show", using: :btree
 
   create_table "smart_push_words", force: :cascade do |t|
     t.integer  "sns_content_id", limit: 4

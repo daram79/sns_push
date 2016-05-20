@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :smart_push_lists
   resources :notices
   resources :ppomppu_freeboard_words
   resources :user_push_contents do
