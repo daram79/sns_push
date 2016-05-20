@@ -1,0 +1,17 @@
+<%= form_for(@smart_push_list) do |f| %>
+  <% if @smart_push_list.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@smart_push_list.errors.count, "error") %> prohibited this smart_push_list from being saved:</h2>
+
+      <ul>
+      <% @smart_push_list.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
