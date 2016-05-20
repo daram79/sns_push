@@ -1,6 +1,8 @@
 #encoding: utf-8
 require "#{File.dirname(__FILE__)}/../../config/environment.rb"
 
+begin
+p "start"
 now = Time.now
 smart_push_words = SmartPushWord.where('created_at > ?', now.ago(60)).group('word').order('count_id desc').count('id')
 
@@ -22,4 +24,8 @@ smart_push_words.each do |key, value|
   end
   break
 end
-  
+p "end"
+
+rescue => e
+    p e.message
+end
