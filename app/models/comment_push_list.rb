@@ -6,6 +6,7 @@ class CommentPushList < ActiveRecord::Base
     categori_str = "[뽐게]" if sns_id == 2
     categori_str = "[해뽐]" if sns_id == 4
     categori_str = "[휴포]" if sns_id == 11
+    categori_str = "[해포]" if sns_id == 12
     gcm = GCM.new("AIzaSyA5xAh3R864Qp0PNr5zfdwxc4JdYzbG734")
     registration_ids = User.where(id: user_ids).pluck(:registration_id)
     title = "새로운 댓글이 달렸습니다."
@@ -92,11 +93,14 @@ class CommentPushList < ActiveRecord::Base
     categori_str = "[뽐게]" if sns_id == 2
     categori_str = "[해뽐]" if sns_id == 4
     categori_str = "[휴포]" if sns_id == 11
+    categori_str = "[해포]" if sns_id == 12
     if is_recommend
       categori_str = "[추천]" + categori_str  
     end
     gcm = GCM.new("AIzaSyA5xAh3R864Qp0PNr5zfdwxc4JdYzbG734")
-    option = { :data => { 'message' => "#{categori_str} #{title} ***#{url}" } }
+    title = "새로운 댓글이 달렸습니다."
+    option = { :data => { 'message' => "#{categori_str} #{title} ***#{url} ***comment" } }
+    # option = { :data => { 'message' => "#{categori_str} #{title} ***#{url}" } }
     response = gcm.send(registration_ids, option)
     return response, registration_ids
   end
