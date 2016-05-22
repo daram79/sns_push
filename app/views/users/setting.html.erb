@@ -9,6 +9,20 @@
 			</select>
 		</td>
 	</tr>
+	<% if @user_id.to_i == 1 %>
+	<tr id="tr_push_mode" class="bottom_line">
+		<td style="padding:20px 0; font-size: 16px;">알람 소리/진동/무음</td>
+		<td style="text-align: right;">
+			<select id="push_mode" onchange="javascript:set_push_mode();" style="padding: 6px;">
+				<option value="1">소리</option>
+				<option value="2">진동</option>
+				<option value="3">무음</option>
+				
+			</select>
+		</td>
+	</tr>
+	<% end %>
+	
 	<tr id="is_push_off_time_detail0" class="bottom_line" style='<%= "display: none" unless @user.is_push %>'>
 		<td style="padding:20px 0; font-size: 16px;">에티켓 기능 사용:</td>
 		<td style="text-align: right;">
@@ -133,6 +147,32 @@
 			}
 		});
 	}
+	<% if @user_id.to_i == 1 %>
+	window.onload = function get_alram_mode() {
+		try {
+			if( "<%=@user.is_push%>"== "false"){
+				$("#tr_push_mode").hide();
+			} else {
+				$("#tr_push_mode").show();
+				var push_mode = HTMLOUT.get_user_push_mode();
+				$("#push_mode").val(push_mode);
+			}
+		} catch(err) {
+		    alert("버젼업그레이드 해주세요.");
+		}
+	}
+	
+	function set_push_mode() {
+		var app_version = HTMLOUT.get_app_version();
+		try {
+		    if(app_version >= 4) {
+				HTMLOUT.set_user_push_mode($("#push_mode").val());
+			}
+		} catch(err) {
+		    alert("버젼업그레이드 해주세요.");
+		}
+	}
+	<% end %>
 </script>
 
 <style>
