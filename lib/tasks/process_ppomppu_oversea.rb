@@ -7,7 +7,7 @@ while 1
     first_content_id = nil
     sns_id = 12
     head_url = "http://www.ppomppu.co.kr/zboard/"
-    default_url = "http://m.ppomppu.co.kr/new/bbs_list.php?id=oversea&no="
+    default_url = "http://m.ppomppu.co.kr/new/bbs_view.php?id=oversea&no="
     
     tmp = Time.now.instance_eval { self.to_i * 1000 + (usec/1000) }
     url = "http://www.ppomppu.co.kr/zboard/zboard.php?id=oversea&a=#{tmp}"
