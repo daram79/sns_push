@@ -9,7 +9,6 @@
 			</select>
 		</td>
 	</tr>
-	<% if @user_id.to_i == 1 %>
 	<tr id="tr_push_mode" class="bottom_line">
 		<td style="padding:20px 0; font-size: 16px;">알람 소리/진동/무음</td>
 		<td style="text-align: right;">
@@ -21,7 +20,6 @@
 			</select>
 		</td>
 	</tr>
-	<% end %>
 	
 	<tr id="is_push_off_time_detail0" class="bottom_line" style='<%= "display: none" unless @user.is_push %>'>
 		<td style="padding:20px 0; font-size: 16px;">에티켓 기능 사용:</td>
@@ -45,7 +43,6 @@
 			<!-- <span><input type="button" onclick="javascript:set_push_off_time();" value="설정" /></span> -->
 		</td>
 	</tr>
-	<% if @user_id.to_i == 1 %>
 	<tr class="bottom_line">
 		<td style="padding:20px 0; font-size: 16px;">댓글알림 ON/OFF:</td>
 		<td style="text-align: right;">
@@ -63,7 +60,6 @@
 			</span>
 		</td>
 	</tr>
-	<% end %>
 </table>
 </div>
 
@@ -119,6 +115,22 @@
 	}
 	
 	function change_is_push_comment() {
+		try {
+			var app_version = HTMLOUT.get_app_version();
+		    if(app_version < 4) {
+		    	if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    		window.load("https://play.google.com/store/apps/details?id=tellus.me.sns_push");
+			    }
+			    return false;
+			}
+		} catch(err) {
+			if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    	window.load("https://play.google.com/store/apps/details?id=tellus.me.sns_push");
+		    }
+		    return false;
+		}
+		
+		
 		var is_push_comment = $("#is_push_comment").val();
 		$.ajax({
 			url: "/users/<%=@user_id%>/set_is_push_comment",
@@ -132,6 +144,20 @@
 	}
 	
 	function set_writer() {
+		try {
+			var app_version = HTMLOUT.get_app_version();
+		    if(app_version < 4) {
+		    	if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    		window.load("https://play.google.com/store/apps/details?id=tellus.me.sns_push");
+			    }
+			    return false;
+			}
+		} catch(err) {
+			if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    	window.load("https://play.google.com/store/apps/details?id=tellus.me.sns_push");
+		    }
+		    return false;
+		}
 		var nick_name = $("#nick_name").val().trim();
 		if(nick_name == "") {
 			alert("닉네임을 입력해 주세요.");
@@ -147,7 +173,7 @@
 			}
 		});
 	}
-	<% if @user_id.to_i == 1 %>
+	
 	window.onload = function get_alram_mode() {
 		try {
 			if( "<%=@user.is_push%>"== "false"){
@@ -158,21 +184,24 @@
 				$("#push_mode").val(push_mode);
 			}
 		} catch(err) {
-		    alert("버젼업그레이드 해주세요.");
+		    if (confirm("새 버젼에서 나왔습니다. 업데이트 해 주세요.") == true){
+		    	window.load("https://play.google.com/store/apps/details?id=tellus.me.sns_push");
+		    }
 		}
 	}
 	
 	function set_push_mode() {
-		var app_version = HTMLOUT.get_app_version();
 		try {
+			var app_version = HTMLOUT.get_app_version();
 		    if(app_version >= 4) {
 				HTMLOUT.set_user_push_mode($("#push_mode").val());
 			}
 		} catch(err) {
-		    alert("버젼업그레이드 해주세요.");
+			if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    	window.load("https://play.google.com/store/apps/details?id=tellus.me.sns_push");
+		    }
 		}
 	}
-	<% end %>
 </script>
 
 <style>
