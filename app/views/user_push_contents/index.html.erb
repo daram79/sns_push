@@ -25,6 +25,8 @@
 					<% title += "[해뽐]" %>
 				<% elsif user_push_content.sns_content.sns_id == 11 %>
 					<% title += "[휴포]" %>
+				<% elsif user_push_content.sns_content.sns_id == 12 %>
+					<% title += "[해포]" %>
 				<% end %>
 				<%= title + " " + user_push_content.sns_content.title%>
 			</a>
