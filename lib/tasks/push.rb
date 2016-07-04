@@ -38,7 +38,7 @@ while 1
 
 # push on/off
       sns_id = user_push_contents[0].sns_content.sns_id
-      title = user_id = user_push_contents[0].sns_content.title
+      title = user_push_contents[0].sns_content.title
       url = user_push_contents[0].sns_content.url
       
       UserPushContent.send_push(user_ids, sns_id, title, url, push_list.is_recommend)

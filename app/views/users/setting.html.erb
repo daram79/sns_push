@@ -1,6 +1,15 @@
 <div style="padding: 10px;">
 <table style="width:100%; border-collapse:collapse;">
 	<tr class="bottom_line">
+		<td style="padding:20px 0; font-size: 16px;">시작페이지:</td>
+		<td style="text-align: right;">
+			<select id="start_page" onchange="javascript:change_start_page();" style="padding: 6px;">
+				<option value="ppomppu">뽐뿌 첫페이지</option>
+				<option value="ppompush">뽐뿌씨 알람 페이지</option>
+			</select>
+		</td>
+	</tr>
+	<tr class="bottom_line">
 		<td style="padding:20px 0; font-size: 16px;">알람ON/OFF:</td>
 		<td style="text-align: right;">
 			<select id="is_push" onchange="javascript:change_is_push();" style="padding: 6px;">
@@ -20,6 +29,14 @@
 			</select>
 		</td>
 	</tr>
+	
+	<tr id="tr_push_sound" class="bottom_line">
+		<td id="sound_name" style="padding:20px 0; font-size: 16px;">벨소리 선택</td>
+		<td style="text-align: right;">
+			<input onclick="javascript:set_push_sound();" type="button" value="선택" />
+		</td>
+	</tr>
+	
 	
 	<tr id="is_push_off_time_detail0" class="bottom_line" style='<%= "display: none" unless @user.is_push %>'>
 		<td style="padding:20px 0; font-size: 16px;">에티켓 기능 사용:</td>
@@ -175,6 +192,7 @@
 	}
 	
 	window.onload = function get_alram_mode() {
+		var app_version = HTMLOUT.get_app_version();
 		try {
 			if( "<%=@user.is_push%>"== "false"){
 				$("#tr_push_mode").hide();
@@ -188,6 +206,22 @@
 		    	location.replace("market://details?id=tellus.me.sns_push");
 		    }
 		}
+		
+		try {
+			if(app_version >= 6) {
+				var start_page = HTMLOUT.get_user_start_page();
+				$("#start_page").val(start_page);
+			} else {
+				if (confirm("새 버젼에서 나왔습니다. 업데이트 해 주세요.") == true){
+			    	location.replace("market://details?id=tellus.me.sns_push");
+			    }				
+			}
+		} catch(err) {
+		    if (confirm("새 버젼에서 나왔습니다. 업데이트 해 주세요.") == true){
+		    	location.replace("market://details?id=tellus.me.sns_push");
+		    }
+		}
+		
 	}
 	
 	function set_push_mode() {
@@ -195,6 +229,11 @@
 			var app_version = HTMLOUT.get_app_version();
 		    if(app_version >= 4) {
 				HTMLOUT.set_user_push_mode($("#push_mode").val());
+				if ($("#push_mode").val() == "1"){
+					$("#tr_push_sound").show();
+				} else {
+					$("#tr_push_sound").hide();
+				}
 			}
 		} catch(err) {
 			if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
@@ -202,6 +241,41 @@
 		    }
 		}
 	}
+	
+	function set_push_sound() {
+		try {
+			var app_version = HTMLOUT.get_app_version();
+		    if(app_version >= 6) {
+				HTMLOUT.set_user_push_sound();
+			} else {
+				if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    		location.replace("market://details?id=tellus.me.sns_push");
+		    	}
+			}
+		} catch(err) {
+			if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    	location.replace("market://details?id=tellus.me.sns_push");
+		    }
+		}
+	}
+	
+	function change_start_page() {
+		try {
+			var app_version = HTMLOUT.get_app_version();
+		    if(app_version >= 7) {
+				HTMLOUT.set_user_start_page($("#start_page").val());
+			} else {
+				if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    		location.replace("market://details?id=tellus.me.sns_push");
+		    	}
+			}
+		} catch(err) {
+			if (confirm("새 버젼에서 이용가능합니다. 업데이트 해 주세요.") == true){
+		    	location.replace("market://details?id=tellus.me.sns_push");
+		    }
+		}
+	}
+	
 </script>
 
 <style>

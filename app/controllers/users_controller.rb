@@ -36,6 +36,26 @@ class UsersController < ApplicationController
     @user = User.find(user_id)
   end
   
+  def set_user_keyword_mode
+    sns_id = params[:sns_id]
+    keyword_mode = params[:keyword_mode]
+    
+    only_title = false
+    if keyword_mode.eql?("only_title")
+      only_title = true
+    end
+    
+    user_id = session[:user_id]
+    user_keyword_mode = UserKeywordMode.where(user_id: user_id, sns_id: sns_id)
+    unless user_keyword_mode.blank?
+      user_keyword_mode.destroy_all
+    end
+    
+    UserKeywordMode.create(user_id: user_id, sns_id: sns_id, only_title: only_title)
+    
+    render json: {status: :ok}
+  end
+  
   def set_push_off_time
     user_id = params[:id]
     user = User.find(user_id)

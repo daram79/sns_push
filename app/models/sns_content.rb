@@ -13,18 +13,56 @@ class SnsContent < ActiveRecord::Base
     description = self.description
     url = self.url
     
-    key_ids = []
+#     원하는 사람만 내용검색함. 기본 제목+내용
+    title_key_ids = []
+    description_key_ids = []
     push_datas = SnsPushKey.where(sns_id: sns_id)
     push_datas.each do |push_data|
       if title.downcase.include?(push_data.key.downcase)
-        key_ids.push push_data.id
+        title_key_ids.push push_data.id
       elsif description.downcase.include?(push_data.key.downcase)
-        key_ids.push push_data.id 
+        description_key_ids.push push_data.id
       end
     end
-    key_ids.uniq!
-    user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
+#     제목으로 매칭된 키워드를 입력한 user_id 추출
+    title_user_ids = UserPushKey.where(sns_push_key_id: title_key_ids).pluck(:user_id)
+
+#     내용으로 매칭된 키워드를 입력한 user_id 추출    
+    description_user_ids = UserPushKey.where(sns_push_key_id: description_key_ids).pluck(:user_id)
+    
+#     제목으로만 매칭을 원하는 user_id 추출
+    title_only_user_ids = UserKeywordMode.where(only_title: true, sns_id: sns_id).pluck(:user_id)
+    description_user_ids = description_user_ids - title_only_user_ids
+    
+    user_ids = title_user_ids + description_user_ids
     user_ids.uniq!
+    
+    # key_ids.uniq!
+    # user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
+    # user_ids.uniq!
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+#     제목/내용 모두 검색
+    # key_ids = []
+    # push_datas = SnsPushKey.where(sns_id: sns_id)
+    # push_datas.each do |push_data|
+      # if title.downcase.include?(push_data.key.downcase)
+        # key_ids.push push_data.id
+      # elsif description.downcase.include?(push_data.key.downcase)
+        # key_ids.push push_data.id 
+      # end
+    # end
+    # key_ids.uniq!
+    # user_ids = UserPushKey.where(sns_push_key_id: key_ids).pluck(:user_id)
+    # user_ids.uniq!
     
     push_list = PushList.create
     

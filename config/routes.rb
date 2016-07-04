@@ -17,14 +17,21 @@ Rails.application.routes.draw do
     end
   end
   resources :sns_push_keys
-  resources :sns_contents
-  resources :sns_contents
+  resources :sns_contents do
+    collection do
+      get "get_content"
+    end
+  end
+  # resources :sns_contents
   resources :sns do
     collection do
       post "add_sns_name"
     end
   end
   resources :users do
+    collection do
+      post "set_user_keyword_mode"
+    end
     member do
       put "update_registration_id"
       get "setting"

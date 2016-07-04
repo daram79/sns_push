@@ -1,3 +1,4 @@
+require 'open-uri'
 class SnsContentsController < ApplicationController
   before_action :set_sns_content, only: [:show, :edit, :update, :destroy]
 

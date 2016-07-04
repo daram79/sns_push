@@ -1,4 +1,20 @@
-<div style="padding: 20px 10px 0 10px;font-weight: bold;">게시판 선택</div>
+<div style="padding: 20px 10px 0 10px;font-weight: bold;">키워드 매칭<span style="color:red;font-size: 10px;">(모든 게시판에 적용됩니다.)</span></div>
+<div style="padding: 0 10px 10px 10px;">
+	<select id="user_keyword_mode" onchange="javascript:set_user_keyword_mode();" style="width:100%; padding:10px;">
+			<option value="title_description" <%= "selected=selected" unless @only_title %> >제목 + 내용</option>
+			<option value="only_title" <%= "selected=selected" if @only_title %> >제목만</option>
+	</select>
+	<div id="user_keyword_mode_msg" style="font-size:10px; color:red;">
+		<% unless @only_title %>
+			제목+내용에 키워드가 매칭할 경우 알림을 줍니다.
+		<% else %>
+			제목에 키워드가 매칭할 경우 알림을 줍니다. 
+		<% end %>
+	</div>
+</div>
+<hr>
+
+<div style="padding: 10px 10px 0 10px;font-weight: bold;">게시판 선택</div>
 <div style="padding: 0 10px 10px 10px;">
 	<%= collection_select("sns", "id" , @sns_list, :id, :name, {:selected => @sns_id},{:onchange => "javascript:change_sns_id();", :style => "width:100%; padding:10px;"} )%>
 </div>
@@ -33,7 +49,7 @@
 			<input style="padding:10px; width:100%;" onclick="javascript:add_recommend_comment_count();" type="button" value="추가" />
 		</div>
 	<% end %>
-	<div style="color: red; padding: 5px 0 0;">
+	<div style="font-size:10px; color: red;">
 		<%=@sns_name%>에서 추천수가 몇 이상인 글을 PUSH할지 선택
 	</div>
 </div>
@@ -69,7 +85,6 @@
 	function set_user_recommend_push_count() {
 		cnt = $("#user_recommend_push_count").val();
 		var sns_id = $("#sns_id").val();
-		sns_id = 
 		$.ajax({
 			url: "/user_push_keys/set_user_recommend_push_count",
 			dataType:'json',
@@ -94,6 +109,26 @@
 				}
 			  }
 			});
+		
+	}
+	
+	function set_user_keyword_mode() {
+		var keyword_mode = $("#user_keyword_mode").val();
+		var sns_id = $("#sns_id").val();
+		$.ajax({
+			url: "/users/set_user_keyword_mode",
+			dataType:'json',
+			data: {sns_id: sns_id, keyword_mode: keyword_mode},
+			type:'POST',
+			success: function(data){
+				if(keyword_mode=="only_title"){
+					$("#user_keyword_mode_msg").text("제목에 키워드가 매칭할 경우 알림을 줍니다.");
+				} else {
+					$("#user_keyword_mode_msg").text("제목+내용에 키워드가 매칭할 경우 알림을 줍니다.");
+				}
+			}
+				
+		});
 		
 	}
 	

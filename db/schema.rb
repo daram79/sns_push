@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520065513) do
+ActiveRecord::Schema.define(version: 20160605035442) do
 
   create_table "comment_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -132,6 +132,18 @@ ActiveRecord::Schema.define(version: 20160520065513) do
   end
 
   add_index "sns_push_keys", ["sns_id", "key"], name: "index_sns_push_keys_on_sns_id_and_key", using: :btree
+
+  create_table "user_keyword_modes", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "sns_id",     limit: 4
+    t.boolean  "only_title",           default: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  add_index "user_keyword_modes", ["sns_id", "only_title"], name: "index_user_keyword_modes_on_sns_id_and_only_title", using: :btree
+  add_index "user_keyword_modes", ["user_id", "sns_id"], name: "index_user_keyword_modes_on_user_id_and_sns_id", using: :btree
+  add_index "user_keyword_modes", ["user_id"], name: "index_user_keyword_modes_on_user_id", using: :btree
 
   create_table "user_push_contents", force: :cascade do |t|
     t.integer  "user_id",        limit: 4

@@ -12,6 +12,10 @@ class UserPushKeysController < ApplicationController
     end
     
     @sns_id = params[:sns_id]
+    
+    @only_title = false
+    @only_title = UserKeywordMode.where(user_id: user_id, sns_id: @sns_id).first.only_title if UserKeywordMode.where(user_id: user_id, sns_id: @sns_id).first
+    
     @user_recommend_push_count = RecommendPushCount.where(user_id: user_id, sns_id: @sns_id).pluck(:count).join.to_i
     @user_comment_push_count = CommentPushCount.where(user_id: user_id, sns_id: @sns_id).pluck(:count).join.to_i if @sns_id.to_s == "1"
     # @user_recommend_push_count = User.find(user_id).recommend_push_count
