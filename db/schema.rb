@@ -197,10 +197,13 @@ ActiveRecord::Schema.define(version: 20160705041902) do
     t.integer  "user_id",    limit: 4
     t.string   "url",        limit: 255
     t.string   "title",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.boolean  "is_delete",              default: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
+  add_index "visit_histories", ["title"], name: "index_visit_histories_on_title", using: :btree
+  add_index "visit_histories", ["user_id", "is_delete"], name: "index_visit_histories_on_user_id_and_is_delete", using: :btree
   add_index "visit_histories", ["user_id", "url"], name: "index_visit_histories_on_user_id_and_url", using: :btree
   add_index "visit_histories", ["user_id"], name: "index_visit_histories_on_user_id", using: :btree
 

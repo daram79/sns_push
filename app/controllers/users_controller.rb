@@ -48,7 +48,15 @@ class UsersController < ApplicationController
   
   def user_visit_history
     user_id = params[:id]
-    @visit_histories = VisitHistory.where(user_id: user_id).order("id desc").limit(1000)
+    session[:user_id] = user_id
+    @visit_histories = VisitHistory.where(user_id: user_id, is_delete: false).order("id desc").limit(1000)
+  end
+  
+  def delete_visit_history
+    history_id = params[:history_id]
+    visit_history = VisitHistory.find(history_id)
+    visit_history.update(is_delete: true)
+    render json: {status: :ok}
   end
   
   def set_user_keyword_mode

@@ -1,15 +1,47 @@
 <div style="padding: 10px;">
 	<% unless @visit_histories.blank? %>
 		<% @visit_histories.each do |history| %>
-		<div style="padding: 10px 0; font-size: 16px;">
-			<a style="text-decoration:none; width:100%; display:inline-block;" href="<%=history.url%>">
-				<%=history.title%>
+		<table style="width:100%; border-collapse:collapse;">
+			<tr id="tr_<%=history.id%>" style="border-bottom:1px solid #ccc;">
+				<td onclick="go_bbs('<%=history.url%>')" style="width:95%; padding-top: 10px; padding-bottom: 10px;">
+					<span style="font-size: 16px;">
+						<%= history.title.split(" - ")[1] %>
+					</span>
+				</td>
+				<td style="text-align: center; vertical-align:top; padding-top: 10px; padding-bottom: 10px;"><span onclick="delete_visit_history(<%=history.id%>)" style="color:gray; font-size:12px;">X</span></td>
+			</tr>
+			
+		</table>
+		<!-- <div style="padding: 10px 0; font-size: 16px;">
+			<div style="float:left; width:90%;">
+			<a style="text-decoration:none; padding-right:20px;" href="<%=history.url%>">
+				
 			</a>
-		</div>
-		<hr color="#f0f0f0" style="border-bottom: 0; margin:0;" />
+			</div>
+		</div> -->
 		<% end %>
 	<% else %>
 		<div style="text-align: center; padding: 50px 0;font-size: 18px; color: gray;">아직 데이터가 없습니다.</div>
 		<hr color="#f0f0f0" style="border-bottom: 0; margin:0;" />
 	<% end %>
 </div>
+
+<script>
+	function go_bbs(url){
+		window.location = url
+	}
+	
+	function delete_visit_history(history_id) {
+		if (confirm("리스트에서 삭제 하시겠습니까?") == true){    //확인
+			$.ajax({
+				url: "/users/<%=session[:user_id]%>/delete_visit_history",
+				data: {history_id: history_id},
+				dataType:'json',
+				type:'PUT',
+				success: function(data){
+					$("#tr_"+history_id).remove();
+				}
+			});
+		}
+	}
+</script>

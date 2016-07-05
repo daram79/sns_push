@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       put "set_is_push_comment"
       put "set_nick_name"
       get "user_visit_history"
+      put "delete_visit_history"
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
