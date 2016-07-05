@@ -2,7 +2,7 @@
 	<% unless @visit_histories.blank? %>
 		<% @visit_histories.each do |history| %>
 		<div style="padding: 10px 0; font-size: 16px;">
-			<a style="text-decoration:none; width:100%; display:inline-block; href="<%=history.url%>">
+			<a style="text-decoration:none; width:100%; display:inline-block;" href="<%=history.url%>">
 				<%=history.title%>
 			</a>
 		</div>
