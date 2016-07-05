@@ -9,6 +9,7 @@ class CreateVisitHistories < ActiveRecord::Migration
     end
     add_index :visit_histories, :user_id
     add_index :visit_histories, :title
+    add_index :visit_histories, [:title, :created_at] 
     add_index :visit_histories, [:user_id, :is_delete]
     add_index :visit_histories, [:user_id, :url]
   end

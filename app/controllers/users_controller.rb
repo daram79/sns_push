@@ -131,8 +131,9 @@ class UsersController < ApplicationController
   
   def add_visit_history
     user_id = params[:user_id]
-    url = params[:url]
+    url = params[:url].split("&page")[0]
     title = params[:title]
+    
     visit_history = VisitHistory.where(user_id: user_id, url: url)
     VisitHistory.create(user_id: user_id, url: url, title: title) if visit_history.blank?
     render json: {status: :ok}

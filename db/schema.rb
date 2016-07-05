@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 20160705041902) do
     t.datetime "updated_at",                             null: false
   end
 
+  add_index "visit_histories", ["title", "created_at"], name: "index_visit_histories_on_title_and_created_at", using: :btree
   add_index "visit_histories", ["title"], name: "index_visit_histories_on_title", using: :btree
   add_index "visit_histories", ["user_id", "is_delete"], name: "index_visit_histories_on_user_id_and_is_delete", using: :btree
   add_index "visit_histories", ["user_id", "url"], name: "index_visit_histories_on_user_id_and_url", using: :btree
