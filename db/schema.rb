@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160704152344) do
+ActiveRecord::Schema.define(version: 20160705041902) do
 
   create_table "comment_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 20160704152344) do
   add_index "comment_push_lists", ["is_push", "user_id", "sns_content_id"], name: "for_check_data", using: :btree
   add_index "comment_push_lists", ["is_push"], name: "index_comment_push_lists_on_is_push", using: :btree
   add_index "comment_push_lists", ["user_id"], name: "index_comment_push_lists_on_user_id", using: :btree
+
+  create_table "main_menus", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.integer  "index",      limit: 4
+    t.integer  "menu_type",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "notices", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -188,10 +196,12 @@ ActiveRecord::Schema.define(version: 20160704152344) do
   create_table "visit_histories", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
     t.string   "url",        limit: 255
+    t.string   "title",      limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
 
   add_index "visit_histories", ["user_id", "url"], name: "index_visit_histories_on_user_id_and_url", using: :btree
+  add_index "visit_histories", ["user_id"], name: "index_visit_histories_on_user_id", using: :btree
 
 end

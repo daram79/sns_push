@@ -23,6 +23,16 @@ class UsersController < ApplicationController
   def edit
   end
   
+  def get_menu
+    menu = MainMenu.all
+    render json: menu
+  end
+  
+  def get_user_visit_history
+    menu = MainMenu.all
+    render json: menu
+  end
+  
   def setting
     @user_id = user_id = params[:id]
     
@@ -34,6 +44,11 @@ class UsersController < ApplicationController
     @on_off_hash[:off] = off
     
     @user = User.find(user_id)
+  end
+  
+  def user_visit_history
+    user_id = params[:id]
+    @visit_histories = VisitHistory.where(user_id: user_id).order("id desc").limit(1000)
   end
   
   def set_user_keyword_mode
@@ -109,8 +124,9 @@ class UsersController < ApplicationController
   def add_visit_history
     user_id = params[:user_id]
     url = params[:url]
+    title = params[:title]
     visit_history = VisitHistory.where(user_id: user_id, url: url)
-    VisitHistory.create(user_id: user_id, url: url) if visit_history.blank?
+    VisitHistory.create(user_id: user_id, url: url, title: title) if visit_history.blank?
     render json: {status: :ok}
   end
   
