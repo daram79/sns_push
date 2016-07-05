@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   end
   resources :users do
     collection do
+      post "add_visit_history"
       post "set_user_keyword_mode"
     end
     member do

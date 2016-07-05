@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160605035442) do
+ActiveRecord::Schema.define(version: 20160704152344) do
 
   create_table "comment_push_counts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -184,5 +184,14 @@ ActiveRecord::Schema.define(version: 20160605035442) do
   add_index "users", ["nick_name", "is_push_comment"], name: "index_users_on_nick_name_and_is_push_comment", using: :btree
   add_index "users", ["nick_name"], name: "index_users_on_nick_name", using: :btree
   add_index "users", ["recommend_push_count"], name: "index_users_on_recommend_push_count", using: :btree
+
+  create_table "visit_histories", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.string   "url",        limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "visit_histories", ["user_id", "url"], name: "index_visit_histories_on_user_id_and_url", using: :btree
 
 end

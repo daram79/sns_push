@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   # skip_before_filter :verify_authenticity_token, :only => [:index, :show]
-  skip_before_filter :verify_authenticity_token, :only => [:create, :update_registration_id]
+  skip_before_filter :verify_authenticity_token, :only => [:create, :update_registration_id, :add_visit_history]
 
   # GET /users
   # GET /users.json
@@ -103,6 +103,14 @@ class UsersController < ApplicationController
     nick_name = params[:nick_name]
     user = User.find(user_id)
     user.update(nick_name: nick_name)
+    render json: {status: :ok}
+  end
+  
+  def add_visit_history
+    user_id = params[:user_id]
+    url = params[:url]
+    visit_history = VisitHistory.where(user_id: user_id, url: url)
+    VisitHistory.create(user_id: user_id, url: url) if visit_history.blank?
     render json: {status: :ok}
   end
   
