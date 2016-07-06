@@ -136,7 +136,7 @@ class UsersController < ApplicationController
     
     tmp_url = url.clone
     tmp_url.slice! "http://"
-    if (tmp_url != title && "SnsPush" != title)
+    if tmp_url != title && "SnsPush" != title && title.include?("-")
       visit_history = VisitHistory.where(user_id: user_id, url: url)
       VisitHistory.create(user_id: user_id, url: url, title: title) if visit_history.blank?
     end
