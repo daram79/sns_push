@@ -27,6 +27,8 @@
 					<% title += "[휴포]" %>
 				<% elsif user_push_content.sns_content.sns_id == 12 %>
 					<% title += "[해포]" %>
+				<% elsif user_push_content.sns_content.sns_id == 21 %>
+					<% title += "[캠포]" %>
 				<% end %>
 				<%= title + " " + user_push_content.sns_content.title%>
 			</a>
@@ -37,4 +39,19 @@
 		<div style="text-align: center; padding: 50px 0;font-size: 18px; color: gray;">아직 데이터가 없습니다.</div>
 		<hr color="#f0f0f0" style="border-bottom: 0; margin:0;" />
 	<% end %>
-</div>
+</div> 
+
+<script>
+	try {
+		var app_version = HTMLOUT.get_app_version();
+		if(<%= @app_version %> > app_version){
+			if (confirm("새로운 버젼이 있습니다. 업데이트 해 주세요.") == true){
+				location.replace("market://details?id=tellus.me.sns_push");
+			}
+		}
+	} catch(err) {
+		if (confirm("새로운 버젼이 있습니다. 업데이트 해 주세요.") == true){
+	    	location.replace("market://details?id=tellus.me.sns_push");
+	    }
+	}
+</script>

@@ -7,6 +7,7 @@ class CommentPushList < ActiveRecord::Base
     categori_str = "[해뽐]" if sns_id == 4
     categori_str = "[휴포]" if sns_id == 11
     categori_str = "[해포]" if sns_id == 12
+    categori_str = "[캠포]" if sns_id == 21
     gcm = GCM.new("AIzaSyA5xAh3R864Qp0PNr5zfdwxc4JdYzbG734")
     registration_ids = User.where(id: user_ids).pluck(:registration_id)
     title = "새로운 댓글이 달렸습니다."
@@ -94,6 +95,7 @@ class CommentPushList < ActiveRecord::Base
     categori_str = "[해뽐]" if sns_id == 4
     categori_str = "[휴포]" if sns_id == 11
     categori_str = "[해포]" if sns_id == 12
+    categori_str = "[캠포]" if sns_id == 21
     if is_recommend
       categori_str = "[추천]" + categori_str  
     end

@@ -12,6 +12,8 @@ class UserPushContentsController < ApplicationController
       sns_content = SnsContent.find_by_content_id(push_content_id)
       @sns_content_id = sns_content.id
     end
+#   앱 버젼 비교때문에...
+    @app_version = 8
     @notices = Notice.where(is_show: true)
     @user_push_contents = UserPushContent.where(user_id: user_id).order("id desc").first(100)
   end
